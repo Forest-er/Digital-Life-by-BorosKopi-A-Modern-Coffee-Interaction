@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
             <!-- Upload Recipe Card -->
-            <div class="mx-4 mt-8 mb-4">
+            <div class="mx-6 mt-8 mb-4">
                 <div class="bg-gradient-to-br from-sand to-coffee/20 rounded-2xl p-6 text-center">
                     <div class="w-32 h-32 mx-auto mb-4">
                         <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='80' fill='%23B8826D' opacity='0.2'/%3E%3Cpath d='M70 100 L100 130 L130 100 M100 70 L100 130' stroke='%23B8826D' stroke-width='8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="Upload" class="w-full h-full">
