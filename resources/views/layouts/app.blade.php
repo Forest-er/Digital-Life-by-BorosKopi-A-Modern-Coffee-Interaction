@@ -14,70 +14,109 @@
         @endif
 </head>
 <body class="bg-cream">
-    <div class="flex min-h-screen">
-        <!-- Sidebar -->
-        <div class="w-64"></div>
-        <aside class="w-64 bg-white shadow-lg fixed h-full flex flex-col"> <div class="flex-grow"> 
-            <div class="p-6 border-b border-sand">
-                <img src="{{ asset('storage/images/boroskopi.png') }}" alt="">
+    <div class="w-72 shrink-0"></div> 
+        <aside class="w-72 rounded-r-2xl shadow-2xl bg-white fixed h-screen flex flex-col border-r border-dark/30 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+            <div class="p-8 mb-4">
+                <div class="flex items-center gap-3 group cursor-pointer">
+                    <img src="{{ asset('storage/images/boroskopi.png') }}" alt="">
+            </div>
+                </div>
             </div>
 
-            <div class="p-6 border-b border-sand">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-full bg-coffee flex items-center justify-center text-white font-bold">
-                        A
+            <div class="px-6 mb-8">
+                <div class="bg-[#FAF7F0] p-4 rounded-[2rem] flex items-center gap-4 border border-dark/20 shadow-sm hover:shadow-md transition-all group">
+                    <div class="relative">
+                        <div class="w-12 h-12 rounded-2xl bg-[#B17457] flex items-center justify-center text-white font-bold shadow-inner group-hover:scale-105 transition-transform">
+                            {{ substr(Auth::user()->name, 0, 1) }}
+                        </div>
+                        <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div>
                     </div>
-                    <div>
-                        <h3 class="font-semibold text-dark">Admin</h3>
-                        <p class="text-sm text-gray-500">admin@coffee.com</p>
+                    <div class="overflow-hidden">
+                        <h3 class="font-bold text-[#4A4947] truncate text-sm">{{ Auth::user()->name }}</h3>
+                        <p class="text-[10px] text-[#B17457] font-black uppercase tracking-widest opacity-70">Administrator</p>
                     </div>
                 </div>
             </div>
 
-                        <nav class="p-4">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 text-coffee bg-cream border-l-4 border-coffee rounded-r">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                    </svg>
-                    <span class="font-medium">Dashboard</span>
+            <nav class="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar">
+                <p class="px-4 text-[10px] font-black text-dark uppercase tracking-[0.2em] mb-4">Main Menu</p>
+                
+                <a href="{{ route('dashboard') }}" 
+                class="flex items-center gap-4 px-5 py-4 text-[#B17457] bg-[#B17457]/5 border border-[#B17457]/10 rounded-[1.5rem] group transition-all duration-300">
+                    <div class="p-2 bg-white rounded-xl shadow-sm group-hover:shadow transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </div>
+                    <span class="font-bold text-sm tracking-tight">Dashboard</span>
                 </a>
 
-                <a href="{{ route('order') }}" class="flex items-center gap-3 px-4 py-3 text-dark hover:bg-cream rounded transition mt-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                    </svg>
-                    <span class="font-medium">Pesanan</span>
+                <a href="{{ route('order') }}" 
+                class="flex items-center gap-4 px-5 py-4 text-[#4A4947] hover:bg-[#FAF7F0] rounded-[1.5rem] group transition-all duration-300 border border-transparent hover:border-dark/30">
+                    <div class="p-2 bg-transparent group-hover:bg-white rounded-xl transition-all">
+                        <svg class="w-5 h-5 text-dark group-hover:text-[#B17457]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                    </div>
+                    <span class="font-bold text-sm tracking-tight">Pesanan</span>
                 </a>
 
-                <a href="{{ route('transaction') }}" class="flex items-center gap-3 px-4 py-3 text-dark hover:bg-cream rounded transition mt-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span class="font-medium">Transaksi</span>
+                <a href="{{ route('transaction') }}" 
+                class="flex items-center gap-4 px-5 py-4 text-[#4A4947] hover:bg-[#FAF7F0] rounded-[1.5rem] group transition-all duration-300 border border-transparent hover:border-dark/30">
+                    <div class="p-2 bg-transparent group-hover:bg-white rounded-xl transition-all">
+                        <svg class="w-5 h-5 text-dark group-hover:text-[#B17457]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <span class="font-bold text-sm tracking-tight">Transaksi</span>
                 </a>
 
-                <a href="{{ route('product.menu') }}" class="flex items-center gap-3 px-4 py-3 text-dark hover:bg-cream rounded transition mt-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                    </svg>
-                    <span class="font-medium">Menu</span>
+                <a href="{{ route('product.menu') }}" 
+                class="flex items-center gap-4 px-5 py-4 text-[#4A4947] hover:bg-[#FAF7F0] rounded-[1.5rem] group transition-all duration-300 border border-transparent hover:border-dark/30">
+                    <div class="p-2 bg-transparent group-hover:bg-white rounded-xl transition-all">
+                        <svg class="w-5 h-5 text-dark group-hover:text-[#B17457]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <span class="font-bold text-sm tracking-tight">Menu Produk</span>
                 </a>
             </nav>
-        </div>
 
-        <div class="p-4 border-t border-sand">
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-white hover:text-black hover:bg-cream rounded transition bg-red-600">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                    </svg>
-                    <span class="font-medium">Logout</span>
-                </button>
-            </form>
-        </div>
+            <div class="p-6">
+                <div class="bg-[#4A4947] rounded-3xl p-5 relative overflow-hidden group shadow-lg">
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-[10px] font-black text-dark uppercase tracking-widest">Shop Status</span>
+                            <span class="flex h-2 w-2 rounded-full bg-green-400"></span>
+                        </div>
+                        <h4 class="text-white font-bold text-sm">Kedai Buka</h4>
+                        <p class="text-[10px] text-gray-400 mt-1">Sejak 08:00 WIB</p>
+                    </div>
+                    <div class="absolute -right-2 -bottom-2 text-white/10 rotate-12 group-hover:rotate-0 transition-transform duration-500">
+                        <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M2 21h20v-2H2v2zM20 8h-2V5h2v3zm-3 0h-2V5h2v3zm-3 0h-2V5h2v3zm-3 0H9V5h2v3zM6 8H4V5h2v3zm14 10V10H4v8h16z"></path>
+                        </svg>
+                    </div>
+                </div>
 
+                <form method="POST" action="{{ route('logout') }}" class="mt-4">
+                    @csrf
+                    <button type="submit" class="w-full flex items-center justify-center gap-2 py-3 text-[#B17457] font-black text-xs uppercase tracking-widest border-2 border-[#FAF7F0] hover:bg-[#FAF7F0] rounded-2xl transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
+                        Logout
+                    </button>
+                </form>
+            </div>
         </aside>
-        <main class="mx-4">@yield('content')</main>
-    </div>
+    <main class="flex-1 min-h-screen ml-72 p-8">
+        @yield('content')
+    </main>
+    @stack('modals')
+
+    @livewireScripts
+
+    @stack('scripts')
 </body>
 </html>

@@ -1,200 +1,172 @@
 @extends('layouts.app')
 @section('content')
-        <!-- Main Content -->
-        <main class="flex-1 p-8">
-            <!-- Header -->
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold text-dark">Halo, Admin</h2>
-                
-                <div class="flex items-center gap-4">
-                    <div class="relative">
-                        <input type="text" placeholder="Cari..." class="pl-10 pr-4 py-2 rounded-full border border-sand bg-white focus:outline-none focus:ring-2 focus:ring-coffee w-64">
-                        <svg class="w-5 h-5 absolute left-3 top-2.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
+<main class="p-6 bg-cream min-h-screen w-full font-sans text-dark">
+    
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+            <h2 class="text-3xl font-extrabold tracking-tight">Welcome back, {{ Auth::user()->name }} 👋</h2>
+            <p class="text-coffee font-medium">Berikut adalah ringkasan kedai Anda hari ini.</p>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <div class="relative group">
+                <input type="text" placeholder="Search data..." 
+                    class="pl-11 pr-4 py-2.5 rounded-2xl bg-white border-none shadow-sm focus:ring-2 focus:ring-coffee w-64 transition-all duration-300 group-hover:shadow-md">
+                <svg class="w-5 h-5 absolute left-4 top-3 text-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </div>
+            <button class="p-2.5 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all relative">
+                <div class="absolute top-2 right-2.5 w-2 h-2 bg-coffee rounded-full border-2 border-white"></div>
+                <svg class="w-6 h-6 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="md:col-span-2 bg-dark rounded-[2rem] p-8 text-white flex justify-between items-center relative overflow-hidden shadow-xl">
+            <div class="relative z-10">
+                <p class="text-sand text-sm font-medium mb-1">Total Pendapatan</p>
+                <h3 class="text-4xl font-bold mb-4">Rp {{ number_format($orderTotalPrice, 0, ',', '.') }}</h3>
+                <span class="px-3 py-1 bg-white/10 rounded-full text-xs font-semibold text-sand border border-white/10">
+                    ↑ 12% dari bulan lalu
+                </span>
+            </div>
+            <div class="bg-coffee p-4 rounded-3xl rotate-12 shadow-lg">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-white/5 rounded-full"></div>
+        </div>
+
+        <div class="bg-white rounded-[2rem] p-6 shadow-sm hover:shadow-md transition-all border border-sand/30">
+            <div class="w-12 h-12 bg-cream rounded-2xl flex items-center justify-center mb-6">
+                <svg class="w-6 h-6 text-coffee" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                </svg>
+            </div>
+            <p class="text-gray-400 text-sm font-medium">Pesanan Hari Ini</p>
+            <p class="text-3xl font-bold">{{ $orderCount }}</p>
+        </div>
+
+        <div class="bg-white rounded-[2rem] p-6 shadow-sm hover:shadow-md transition-all border border-sand/30">
+            <div class="w-12 h-12 bg-cream rounded-2xl flex items-center justify-center mb-6">
+                <svg class="w-6 h-6 text-coffee" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                </svg>
+            </div>
+            <p class="text-gray-400 text-sm font-medium">Menu Terjual</p>
+            <p class="text-3xl font-bold">{{ $orderItemsSell }}</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <div class="lg:col-span-8 space-y-6">
+            
+            <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-sand/30">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-xl font-bold">Aktivitas Penjualan</h3>
+                    <select class="bg-cream border-none rounded-xl text-sm font-bold text-coffee px-4 py-2">
+                        <option>Minggu Ini</option>
+                    </select>
+                </div>
+                <div class="flex items-end justify-between h-48 gap-2">
+                    @php $heights = ['h-24', 'h-32', 'h-40', 'h-28', 'h-44', 'h-36', 'h-20']; @endphp
+                    @foreach(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $index => $day)
+                    <div class="flex-1 flex flex-col items-center gap-3">
+                        <div class="w-full max-w-[40px] {{ $heights[$index] }} bg-sand hover:bg-coffee rounded-t-xl transition-all duration-500 cursor-pointer relative group">
+                            <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-dark text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Rp 200k</div>
+                        </div>
+                        <span class="text-xs font-bold text-gray-400">{{ $day }}</span>
                     </div>
-                    <button class="w-10 h-10 rounded-full bg-white shadow flex items-center justify-center hover:shadow-md transition">
-                        <svg class="w-5 h-5 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                        </svg>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-sand/30">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold">Pesanan Terbaru</h3>
+                    <button class="text-coffee font-bold text-sm hover:underline">View All</button>
+                </div>
+                <div class="space-y-4">
+                    @foreach ($Orders as $O)            
+                    <div class="flex items-center justify-between p-5 hover:bg-cream rounded-[2rem] transition-all border border-transparent hover:border-sand/50 group">
+                        <div class="flex items-center gap-5">
+                            <div class="w-14 h-14 bg-dark rounded-2xl flex items-center justify-center text-cream font-bold shadow-lg group-hover:scale-110 transition-transform">
+                                #{{ $O->order_id }}
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">{{ $O->customer_name }}</h4>
+                                <p class="text-xs text-coffee font-medium uppercase tracking-widest">{{ now()->format('d M, H:i') }}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-black text-lg">Rp {{ number_format($O->total_price, 0, ',', '.') }}</p>
+                            <span class="inline-block px-4 py-1.5 bg-sand/30 text-dark text-[10px] font-black rounded-full mt-1 uppercase tracking-tighter">
+                                {{ $O->status }}
+                            </span>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-4 space-y-6">
+            
+            <div class="bg-coffee rounded-[2.5rem] p-8 text-white shadow-lg shadow-coffee/20">
+                <h3 class="text-xl font-bold mb-6 italic">Quick Actions</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <button class="flex flex-col items-center justify-center p-4 bg-white/10 hover:bg-white/20 rounded-[1.5rem] transition-all border border-white/10 group">
+                        <span class="text-2xl mb-2 group-hover:scale-125 transition-transform">➕</span>
+                        <span class="text-[10px] font-bold uppercase tracking-widest">New Order</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center p-4 bg-white/10 hover:bg-white/20 rounded-[1.5rem] transition-all border border-white/10 group">
+                        <span class="text-2xl mb-2 group-hover:scale-125 transition-transform">📋</span>
+                        <span class="text-[10px] font-bold uppercase tracking-widest">Report</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <!-- Card 1 -->
-                <div class="bg-gradient-to-br from-purple-200 to-purple-300 rounded-2xl p-6 shadow-md">
-                    <div class="w-12 h-12 bg-white bg-opacity-50 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                        </svg>
-                    </div>
-                    <p class="text-sm text-gray-600 mb-2">Pesanan Hari Ini</p>
-                    <p class="text-sm text-gray-500 mb-1">{{ date('d F Y') }}</p>
-                    <p class="text-3xl font-bold text-dark">45</p>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="bg-gradient-to-br from-green-200 to-green-300 rounded-2xl p-6 shadow-md">
-                    <div class="w-12 h-12 bg-white bg-opacity-50 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <p class="text-sm text-gray-600 mb-2">Pendapatan</p>
-                    <p class="text-sm text-gray-500 mb-1">{{ date('F Y') }}</p>
-                    <p class="text-3xl font-bold text-dark">Rp 3.250.000</p>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="bg-gradient-to-br from-pink-200 to-pink-300 rounded-2xl p-6 shadow-md">
-                    <div class="w-12 h-12 bg-white bg-opacity-50 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-pink-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                        </svg>
-                    </div>
-                    <p class="text-sm text-gray-600 mb-2">Menu Terjual</p>
-                    <p class="text-sm text-gray-500 mb-1">{{ date('F Y') }}</p>
-                    <p class="text-3xl font-bold text-dark">892</p>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="bg-gradient-to-br from-orange-200 to-orange-300 rounded-2xl p-6 shadow-md">
-                    <div class="w-12 h-12 bg-white bg-opacity-50 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-orange-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
-                    </div>
-                    <p class="text-sm text-gray-600 mb-2">Total Pelanggan</p>
-                    <p class="text-sm text-gray-500 mb-1">{{ date('F Y') }}</p>
-                    <p class="text-3xl font-bold text-dark">234</p>
-                </div>
-            </div>
-
-            <!-- Recent Orders & Quick Actions -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Recent Orders -->
-                <div class="lg:col-span-2 bg-white rounded-2xl shadow-md p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-xl font-bold text-dark">Pesanan Terbaru</h3>
-                        <button class="text-coffee hover:text-coffee/80 text-sm font-medium">Lihat Semua</button>
-                    </div>
-
-                    <div class="space-y-4">
-                        <!-- Order Item -->
-                        <div class="flex items-center justify-between p-4 bg-cream rounded-xl hover:shadow-md transition">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-coffee rounded-full flex items-center justify-center text-white font-bold">
-                                    #1
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-dark">Budi Santoso</h4>
-                                    <p class="text-sm text-gray-500">{{ now()->format('d/m/Y H:i') }}</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-bold text-dark">Rp 85.000</p>
-                                <span class="inline-block px-3 py-1 bg-yellow-200 text-yellow-800 text-xs rounded-full mt-1">Diproses</span>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between p-4 bg-cream rounded-xl hover:shadow-md transition">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-coffee rounded-full flex items-center justify-center text-white font-bold">
-                                    #2
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-dark">Siti Rahma</h4>
-                                    <p class="text-sm text-gray-500">{{ now()->subMinutes(15)->format('d/m/Y H:i') }}</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-bold text-dark">Rp 125.000</p>
-                                <span class="inline-block px-3 py-1 bg-green-200 text-green-800 text-xs rounded-full mt-1">Selesai</span>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between p-4 bg-cream rounded-xl hover:shadow-md transition">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-coffee rounded-full flex items-center justify-center text-white font-bold">
-                                    #3
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-dark">Ahmad Fauzi</h4>
-                                    <p class="text-sm text-gray-500">{{ now()->subMinutes(30)->format('d/m/Y H:i') }}</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-bold text-dark">Rp 65.000</p>
-                                <span class="inline-block px-3 py-1 bg-blue-200 text-blue-800 text-xs rounded-full mt-1">Baru</span>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between p-4 bg-cream rounded-xl hover:shadow-md transition">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-coffee rounded-full flex items-center justify-center text-white font-bold">
-                                    #4
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-dark">Dewi Lestari</h4>
-                                    <p class="text-sm text-gray-500">{{ now()->subHour()->format('d/m/Y H:i') }}</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-bold text-dark">Rp 95.000</p>
-                                <span class="inline-block px-3 py-1 bg-green-200 text-green-800 text-xs rounded-full mt-1">Selesai</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quick Actions & Info -->
+            <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-sand/30">
+                <h3 class="text-xl font-bold mb-6">Menu Populer</h3>
                 <div class="space-y-6">
-                    <!-- Quick Actions -->
-                    <div class="bg-dark rounded-2xl shadow-md p-6 text-white">
-                        <h3 class="text-xl font-bold mb-4">Aksi Cepat</h3>
-                        <div class="space-y-3">
-                            <button class="w-full bg-coffee hover:bg-coffee/90 text-white font-semibold py-3 rounded-xl transition">
-                                + Pesanan Baru
-                            </button>
-                            <button class="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-3 rounded-xl transition">
-                                Lihat Menu
-                            </button>
-                            <button class="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-3 rounded-xl transition">
-                                Laporan Harian
-                            </button>
+                    @php 
+                        $populer = [
+                            ['name' => 'Cappuccino', 'sold' => 128, 'color' => 'bg-coffee', 'percent' => '85%'],
+                            ['name' => 'Latte', 'sold' => 95, 'color' => 'bg-sand', 'percent' => '65%'],
+                            ['name' => 'Americano', 'sold' => 87, 'color' => 'bg-dark', 'percent' => '55%']
+                        ];
+                    @endphp
+                    @foreach($populer as $p)
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-sm">{{ $p['name'] }}</span>
+                            <span class="text-xs font-bold text-coffee">{{ $p['sold'] }} sold</span>
+                        </div>
+                        <div class="w-full h-2 bg-cream rounded-full overflow-hidden">
+                            <div class="{{ $p['color'] }} h-full rounded-full" style="width: {{ $p['percent'] }}"></div>
                         </div>
                     </div>
-
-                    <!-- Menu Populer -->
-                    <div class="bg-white rounded-2xl shadow-md p-6">
-                        <h3 class="text-xl font-bold text-dark mb-4">Menu Populer</h3>
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center pb-3 border-b border-sand">
-                                <div>
-                                    <p class="font-semibold text-dark">Cappuccino</p>
-                                    <p class="text-sm text-gray-500">128 terjual</p>
-                                </div>
-                                <span class="text-coffee font-bold">☕</span>
-                            </div>
-                            <div class="flex justify-between items-center pb-3 border-b border-sand">
-                                <div>
-                                    <p class="font-semibold text-dark">Latte</p>
-                                    <p class="text-sm text-gray-500">95 terjual</p>
-                                </div>
-                                <span class="text-coffee font-bold">☕</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <p class="font-semibold text-dark">Americano</p>
-                                    <p class="text-sm text-gray-500">87 terjual</p>
-                                </div>
-                                <span class="text-coffee font-bold">☕</span>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
-        </main>
+
+            <div class="bg-dark rounded-[2.5rem] p-6 text-white overflow-hidden relative group">
+                <div class="relative z-10 flex items-center gap-4">
+                    <div class="bg-yellow-500 w-2 h-12 rounded-full animate-pulse"></div>
+                    <div>
+                        <h4 class="font-bold">Stok Biji Kopi Rendah!</h4>
+                        <p class="text-[10px] text-gray-400">Tersisa < 2kg di gudang utama.</p>
+                    </div>
+                </div>
+                <button class="mt-4 w-full py-2 bg-white/5 hover:bg-white/10 rounded-xl text-xs font-bold transition-colors">Re-order Sekarang</button>
+            </div>
+        </div>
+    </div>
+</main>
 @endsection
