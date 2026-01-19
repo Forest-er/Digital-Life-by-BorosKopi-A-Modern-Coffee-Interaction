@@ -15,7 +15,7 @@
 </head>
 <body class="bg-cream">
     <div class="w-72 shrink-0"></div> 
-        <aside class="w-72 rounded-r-2xl shadow-2xl bg-white fixed h-screen flex flex-col border-r border-dark/30 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+        <aside class="w-72 rounded-r-2xl bg-white fixed h-screen flex flex-col border-r border-dark/30 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
             <div class="p-8 mb-4">
                 <div class="flex items-center gap-3 group cursor-pointer">
                     <img src="{{ asset('storage/images/boroskopi.png') }}" alt="">

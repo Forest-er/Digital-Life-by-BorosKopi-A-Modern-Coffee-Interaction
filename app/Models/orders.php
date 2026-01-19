@@ -11,6 +11,7 @@ class orders extends Model
         'customer_name',
         'number_phone',
         'address',
+        'status',
         'product_name',
         'quantity',
         'total_price',

@@ -60,16 +60,23 @@ class orderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
+        // 1. Validasi input
         $request->validate([
-            'status' => 'required|string',
+            'status' => 'required|in:menunggu,proses,selesai,dibatalkan'
         ]);
-        $Orders = orders::where('order_id', $id)->first();
-        $Orders->update([
+
+        // 2. Cari data order berdasarkan ID
+        $order = Orders::where('order_id', $id)->firstOrFail();
+
+        // 3. Update statusnya
+        $order->update([
             'status' => $request->status
         ]);
-        return redirect()->back()->with('success', 'Status pesanan berhasil diperbarui.');
+
+        // 4. Kembali ke halaman detail dengan pesan sukses
+        return redirect()->back()->with('success', 'Status pesanan berhasil diperbarui!');
     }
 
     /**
