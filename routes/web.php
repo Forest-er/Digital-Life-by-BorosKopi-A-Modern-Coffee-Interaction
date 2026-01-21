@@ -22,5 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/order/detail/{id}', [orderController::class, 'show'])->name('order.detail');
     Route::post('/order/update/{id}', [orderController::class, 'update'])->name('order.update');
 });
+Route::get('/order/add', function() {
+    return view('ordered.addOrder');
+})->name('order.add');
 
 require __DIR__.'/auth.php';

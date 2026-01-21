@@ -14,13 +14,11 @@
         @endif
 </head>
 <body>
-    <div class="flex min-h-screen bg-[#FAF7F0] items-center justify-center p-4">
-        <div class="flex flex-col md:flex-row w-full max-w-5xl bg-white rounded-[2rem] overflow-hidden shadow-xl border border-[#D8D2C2]">
-            
-            <div class="w-full md:w-1/2 p-8 md:p-16 bg-white">
-                <div class="flex items-center gap-2 mb-12">
-                    <div class="w-3 h-6 bg-[#B17457] rounded-full"></div>
-                    <span class="font-bold text-xl text-[#4A4947]">Boroskopi</span>
+    <div class="flex min-h-1/2 bg-gradient-to-bl from-sand to-cream items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row w-full max-w-4xl bg-white rounded-[2rem] overflow-hidden shadow-xl border border-[#D8D2C2]">
+            <div class="w-full md:w-1/2 p-12 md:p-12 bg-white">
+                <div class="flex items-center gap-2 mb-2">
+                    <img src="{{ asset('storage/images/boroskopi.png') }}" alt="" class="w-1/2 brightness-75">
                 </div>
 
                 <h1 class="text-4xl font-bold text-[#4A4947] mb-2">Holla,</h1>
@@ -65,25 +63,16 @@
                     <button type="submit" class="w-full md:w-auto px-12 py-4 bg-[#B17457] text-[#FAF7F0] rounded-xl font-bold hover:bg-[#B17457]/90 transition-all shadow-lg shadow-[#B17457]/20 mb-8">
                         {{ __('Sign In') }}
                     </button>
-
-                    <p class="text-[#4A4947]/60 text-sm">
-                        Don't have an account? 
-                        <a href="{{ route('register') }}" class="text-[#B17457] font-bold hover:underline italic">Sign Up</a>
-                    </p>
                 </form>
             </div>
 
-            <div class="hidden md:flex w-1/2 bg-gradient-to-br from-[#D8D2C2] to-[#B17457] p-12 items-center justify-center relative overflow-hidden">
+            <div style="background-image: url('{{ asset('storage/images/catcoffee.jpg') }}'); background-size: cover;" class="hidden md:flex w-1/2 p-12 items-center justify-center relative overflow-hidden">
                 <div class="absolute -top-10 -right-10 w-64 h-64 bg-[#FAF7F0]/10 rounded-full"></div>
                 <div class="absolute -bottom-20 -left-10 w-80 h-80 bg-[#4A4947]/5 rounded-full"></div>
                 
                 <div class="relative z-10 text-center text-[#FAF7F0]">
-                    <div class="mb-8 inline-block p-6 bg-[#FAF7F0]/20 backdrop-blur-md rounded-3xl border border-[#FAF7F0]/30 shadow-2xl">
-                        <svg class="w-32 h-32 mx-auto text-[#FAF7F0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09a13.916 13.916 0 003.61-3.612m5.103-5.103a13.904 13.904 0 01-3.612 3.61m3.612-3.611a13.908 13.908 0 00-3.611-3.612m-3.612 3.612a13.912 13.912 0 013.612-3.612M12 11c0-3.517 1.009-6.799 2.753-9.571m-3.44 2.04l-.054.09a13.916 13.916 0 00-3.61 3.612m-5.103 5.103a13.904 13.904 0 013.612-3.61m-3.612 3.611a13.908 13.908 0 003.611-3.612m3.612 3.612a13.912 13.912 0 01-3.612 3.612"></path>
-                        </svg>
-                    </div>
-                    <h2 class="text-3xl font-bold mb-4 italic">Boroskopi Admin</h2>
+                    <img src="{{ asset('storage/images/boroskopi.png') }}" alt="" class="mx-auto mb-4 w-1/2 shadow-lg shadow-[#FAF7F0]/20">
+                    <h2 class="text-3xl font-bold mb-4 italic">Admin Side</h2>
                     <p class="text-[#FAF7F0]/80 max-w-xs mx-auto font-light">Manage your specialty coffee shop operations with ease and precision.</p>
                 </div>
 
