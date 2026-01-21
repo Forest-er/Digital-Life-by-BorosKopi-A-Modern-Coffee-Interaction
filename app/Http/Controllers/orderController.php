@@ -62,20 +62,13 @@ class orderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // 1. Validasi input
         $request->validate([
             'status' => 'required|in:menunggu,proses,selesai,dibatalkan'
         ]);
-
-        // 2. Cari data order berdasarkan ID
         $order = Orders::where('order_id', $id)->firstOrFail();
-
-        // 3. Update statusnya
         $order->update([
             'status' => $request->status
         ]);
-
-        // 4. Kembali ke halaman detail dengan pesan sukses
         return redirect()->back()->with('success', 'Status pesanan berhasil diperbarui!');
     }
 
@@ -89,5 +82,10 @@ class orderController extends Controller
     public function count(){
         $orderCount = orders::get()->count();
         return view('dashboard', compact('orderCount'));
+    }
+    public function Transaction(){
+        $orderdone = Orders::where('status', 'selesai')->get();
+        $target = Orders::all();
+        return view('ordered.transaction', compact('orderdone', 'target'));
     }
 }

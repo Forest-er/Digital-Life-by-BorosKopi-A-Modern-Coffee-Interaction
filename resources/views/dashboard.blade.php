@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<main class="p-6 bg-cream min-h-screen w-full font-sans text-dark">
+<main class=" bg-cream min-h-screen w-full font-sans text-dark">
     
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
@@ -25,13 +25,13 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-6">
         <div class="md:col-span-2 bg-dark rounded-[2rem] p-8 text-white flex justify-between items-center relative overflow-hidden shadow-xl">
             <div class="relative z-10">
                 <p class="text-sand text-sm font-medium mb-1">Total Pendapatan</p>
-                <h3 class="text-4xl font-bold mb-4">Rp {{ number_format($orderTotalPrice, 0, ',', '.') }}</h3>
+                <h3 class="text-4xl font-bold mb-4">Rp {{ number_format($orderTotalPrice->sum('total_price'), 0, ',', '.') }}</h3>
                 <span class="px-3 py-1 bg-white/10 rounded-full text-xs font-semibold text-sand border border-white/10">
-                    ↑ 12% dari bulan lalu
+                    ↑ dari {{ $orderTotalPrice->count() }} pesanan
                 </span>
             </div>
             <div class="bg-coffee p-4 rounded-3xl rotate-12 shadow-lg">
@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
         
         <div class="lg:col-span-8 space-y-6">
             

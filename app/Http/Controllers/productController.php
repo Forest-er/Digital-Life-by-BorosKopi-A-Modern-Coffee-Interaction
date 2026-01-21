@@ -3,22 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\orders;
-use App\Models\order_items;
+use App\Models\categories;
+use App\Models\product;
 
-class dashboardController extends Controller
+class productController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $orderCount = orders::get()->count();
-        $Orders = orders::all();
-        $orderTotalPrice = orders::where('status', 'Selesai');
-        $orderItemsSell = order_items::get()->count();
-        $newOrders = orders::whereNot('status', 'Selesai')->get();
-        return view('dashboard', compact('orderCount', 'Orders', 'orderTotalPrice', 'orderItemsSell', 'newOrders'));
+        $categories = categories::all();
+        $products = product::with('category')->get();
+        return view('product.menu', compact('categories', 'products'));
     }
 
     /**

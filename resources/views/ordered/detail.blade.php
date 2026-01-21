@@ -17,8 +17,8 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-         <div class="lg:col-span-2 space-y-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
+         <div class="lg:col-span-2 space-y-4">
              <!-- Account Details -->
              <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                  <div class="flex justify-between items-center mb-6">
@@ -157,15 +157,9 @@
                         <span class="text-sm font-bold text-sand uppercase tracking-widest">Subtotal</span>
                         <span class="font-black text-dark">Rp {{ number_format($OrdersProduct->sum('price'), '0', '.', '.') }}</span>
                     </div>
-                    <div class="flex justify-between items-center group">
-                        <span class="text-sm font-bold text-sand uppercase tracking-widest flex items-center gap-2">
-                            Diskon <span class="px-2 py-0.5 bg-green-100 text-green-600 text-[9px] rounded-md">PROMO10%</span>
-                        </span>
-                        <span class="font-black text-green-600">-Rp 18.300</span>
-                    </div>
                     <div class="flex justify-between items-center">
-                        <span class="text-sm font-bold uppercase tracking-widest text-coffee">Shipping</span>
-                        <span class="font-black text-coffee uppercase text-xs tracking-tighter italic font-serif">Gratis Ongkir</span>
+                        <span class="text-sm font-bold uppercase tracking-widest text-coffee">Ongkir</span>
+                        <span class="font-black text-coffee uppercase text-xs tracking-tighter font-serif">Rp 10.000</span>
                     </div>
                 </div>
 
@@ -173,15 +167,15 @@
                     <div class="absolute inset-0 bg-coffee/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
                     <p class="text-cream/50 text-[10px] font-black uppercase tracking-[0.3em] mb-2 relative">Total Tagihan</p>
                     <h2 class="text-3xl font-black text-cream relative tracking-tighter">
-                        <span class="text-coffee text-lg uppercase font-serif mr-1">Rp</span>{{ number_format($OrdersProduct->sum('price') - 18300, 0, ',', '.') }}
+                        <span class="text-coffee text-lg uppercase font-serif mr-1">Rp</span>{{ number_format($OrdersProduct->sum('price') + 10000, 0, ',', '.') }}
                     </h2>
                 </div>
 
                 @php
                     $statusConfig = match($Orders->status) {
-                        'menunggu' => ['bg' => 'bg-amber-100', 'text' => 'text-amber-700', 'label' => 'Unpaid Bill'],
-                        'proses' => ['bg' => 'bg-blue-100', 'text' => 'text-blue-700', 'label' => 'In Progress'],
-                        'selesai' => ['bg' => 'bg-green-100', 'text' => 'text-green-700', 'label' => 'Successfully Paid'],
+                        'Menunggu' => ['bg' => 'bg-amber-100', 'text' => 'text-amber-700', 'label' => 'Unpaid Bill'],
+                        'Proses' => ['bg' => 'bg-blue-100', 'text' => 'text-blue-700', 'label' => 'In Progress'],
+                        'Selesai' => ['bg' => 'bg-green-100', 'text' => 'text-green-700', 'label' => 'Successfully Paid'],
                         default => ['bg' => 'bg-red-100', 'text' => 'text-red-700', 'label' => 'Canceled'],
                     };
                 @endphp
