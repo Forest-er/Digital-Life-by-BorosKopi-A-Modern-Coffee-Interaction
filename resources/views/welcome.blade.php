@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FILTRO - Premium Coffee Experience</title>
+    <title>Digital-Life-by-BorosKopi-A-Modern-Coffee-Interaction</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,7 +57,10 @@
 <body class="antialiased font-sans">
 
     <nav class="flex items-center justify-between px-8 py-6 lg:px-20">
-        <div class="text-2xl font-bold tracking-tighter font-serif text-brand-primary">FILTRO</div>
+        <a href="/" class="flex items-center">
+            <img src="{{ asset('storage/images/logo.png') }}" alt="Boros Kopi Logo" class="h-10 w-auto">
+        </a>
+
         <div class="hidden md:flex gap-8 text-sm font-medium">
             <a href="#" class="hover:text-brand-primary transition">Home</a>
             <a href="#" class="hover:text-brand-primary transition">Our Menu</a>
@@ -69,9 +72,8 @@
                 @auth
                     <a href="{{ url('/dashboard') }}" class="text-sm font-semibold">Dashboard</a>
                 @else
-                    <a href="{{ route('login') }}" class="text-sm font-semibold">Log in</a>
-                    <a href="{{ route('register') }}"
-                        class="btn-primary text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">Join Now</a>
+                    <a href="{{ route('login') }}"
+                        class="btn-primary text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">Log in</a>
                 @endauth
             @endif
         </div>
@@ -149,10 +151,13 @@
         </div>
     </section>
 
-    <footer class="bg-brand-dark text-brand-cream py-12 px-8 lg:px-20 border-t border-brand-beige/20">
+   <footer class="bg-[#FAF7F0] text-[#4A4947] py-12 px-8 lg:px-20 border-t border-[#D8D2C2]">
         <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="text-2xl font-serif font-bold text-brand-primary">FILTRO</div>
-            <p class="text-sm opacity-60">&copy; 2024 Filtro Coffee Co. All rights reserved.</p>
+            <a href="/" class="flex items-center">
+                <img src="{{ asset('storage/images/logo.png') }}" alt="FILTRO Logo" class="h-10 w-auto">
+            </a>
+
+            <p class="text-sm opacity-60">&copy; 2026 Boros Kopi. All rights reserved.</p>
             <div class="flex gap-6">
                 <div class="w-8 h-8 rounded-full bg-brand-primary/20 flex items-center justify-center">FB</div>
                 <div class="w-8 h-8 rounded-full bg-brand-primary/20 flex items-center justify-center">IG</div>
