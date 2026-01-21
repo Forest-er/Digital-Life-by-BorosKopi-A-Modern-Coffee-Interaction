@@ -60,16 +60,16 @@ class orderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|string',
+            'status' => 'required|in:menunggu,proses,selesai,dibatalkan'
         ]);
-        $Orders = orders::where('order_id', $id)->first();
-        $Orders->update([
+        $order = Orders::where('order_id', $id)->firstOrFail();
+        $order->update([
             'status' => $request->status
         ]);
-        return redirect()->back()->with('success', 'Status pesanan berhasil diperbarui.');
+        return redirect()->back()->with('success', 'Status pesanan berhasil diperbarui!');
     }
 
     /**
@@ -82,5 +82,10 @@ class orderController extends Controller
     public function count(){
         $orderCount = orders::get()->count();
         return view('dashboard', compact('orderCount'));
+    }
+    public function Transaction(){
+        $orderdone = Orders::where('status', 'selesai')->get();
+        $target = Orders::all();
+        return view('ordered.transaction', compact('orderdone', 'target'));
     }
 }

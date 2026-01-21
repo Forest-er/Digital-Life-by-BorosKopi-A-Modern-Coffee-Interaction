@@ -1,65 +1,99 @@
 @extends('layouts.app')
 
 @section('content')
-<main class="flex-1 p-8 min-h-screen">
-    <div class="flex justify-between items-center mb-8">
-        <h2 class="text-3xl font-bold text-dark">Daftar Pesanan</h2>
+<main class="flex-1 bg-cream min-h-screen">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
+        <div>
+            <h2 class="text-4xl font-black text-dark tracking-tighter">Riwayat <span class="text-coffee">Transaksi.</span></h2>
+        </div>
         
-        <div class="flex items-center gap-4">
-            <div class="relative">
-                <input type="text" placeholder="Cari pesanan..." class="pl-4 pr-10 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-coffee/20 w-64">
-                <svg class="w-5 h-5 absolute right-3 top-2.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="flex items-center gap-4 w-full md:w-auto">
+            <div class="relative flex-1 md:flex-none">
+                <input type="text" placeholder="Cari ID atau Nama..." class="w-full md:w-72 pl-12 pr-4 py-3.5 rounded-2xl bg-white border border-sand focus:outline-none focus:ring-2 focus:ring-coffee/20 shadow-sm transition-all">
+                <svg class="w-5 h-5 absolute left-4 top-4 text-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
             </div>
-            <button class="px-6 py-2.5 bg-coffee hover:bg-opacity-90 text-white rounded-lg font-medium transition flex items-center gap-2">
-                <span>+</span> Buat Pesanan
+            <button class="p-3.5 bg-white border border-sand text-dark rounded-2xl hover:bg-dark hover:text-cream transition-all shadow-sm group">
+                <svg class="w-6 h-6 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+                </svg>
             </button>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
         
-        <div class="lg:col-span-2 space-y-8">
+        <div class="lg:col-span-3 space-y-6">
             
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <div class="p-6 border-b border-gray-100 flex justify-between items-center">
-                    <h3 class="font-bold text-dark text-lg">Transaksi Terakhir</h3>
-                    <button class="text-sm text-coffee font-medium border border-coffee px-3 py-1 rounded-md hover:bg-cream transition">Filter</button>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div class="bg-dark rounded-[2rem] p-8 text-cream relative overflow-hidden group hover:-translate-y-1 transition-all duration-300 shadow-xl">
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-coffee/20 rounded-full blur-2xl group-hover:bg-coffee/40 transition-all"></div>
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-60 mb-2">Total Income</p>
+                    <h3 class="text-3xl font-black">Rp {{ number_format($orderdone->sum('total_price')) }}</h3>
+                    <div class="mt-4 flex items-center gap-2 text-xs font-bold text-green-400">
+                    </div>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead class="bg-gray-50 text-gray-400 text-xs uppercase font-semibold">
+
+                <div class="bg-white rounded-[2rem] p-8 border border-sand shadow-sm hover:shadow-md transition-all">
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] mb-2 text-coffee">Transaksi Sukses</p>
+                    <h3 class="text-3xl font-black text-dark tracking-tight">{{ count($orderdone) }}</h3>
+                    <div class="mt-4 flex gap-1">
+                        @for($i=0; $i<5; $i++) <div class="h-1.5 flex-1 bg-coffee rounded-full"></div> @endfor
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-[2rem] p-8 border border-sand shadow-sm hover:shadow-md transition-all">
+                    <p class="text-[10px] font-black text-sand uppercase tracking-[0.2em] mb-2">Dibatalkan</p>
+                    <h3 class="text-3xl font-black text-dark tracking-tight">{{ count($orderdone) }}</h3>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-[2.5rem] shadow-xl border border-sand overflow-hidden">
+                <div class="p-8 border-b border-sand/30 flex justify-between items-center bg-cream/20">
+                    <h3 class="font-black text-dark text-xl tracking-tight">Daftar Log <span class="text-coffee">Transaksi.</span></h3>
+                    <span class="px-4 py-1.5 bg-dark text-cream text-[10px] font-black rounded-xl uppercase tracking-widest">Live Updates</span>
+                </div>
+                
+                <div class="overflow-x-auto px-4 pb-4">
+                    <table class="w-full text-left border-separate border-spacing-y-4">
+                        <thead class="text-[10px] font-black text-coffee uppercase tracking-[0.2em]">
                             <tr>
-                                <th class="px-6 py-4">Nama / Pelanggan</th>
-                                <th class="px-6 py-4">Tanggal</th>
-                                <th class="px-6 py-4">Jumlah</th>
-                                <th class="px-6 py-4">Status</th>
+                                <th class="px-6 py-2">ID & Pelanggan</th>
+                                <th class="px-6 py-2">Waktu Transaksi</th>
+                                <th class="px-6 py-2">Total Tagihan</th>
+                                <th class="px-6 py-2 text-center">Metode</th>
+                                <th class="px-6 py-2 text-right">Status</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-50">
-                            @php
-                                $samples = [
-                                    ['name' => 'Harriet Santiago', 'date' => '21 Sep, 2024', 'amount' => 'Rp 604.500', 'status' => 'Pending', 'color' => 'orange'],
-                                    ['name' => 'Sara Graham', 'date' => '08 Sep, 2024', 'amount' => 'Rp 1.175.500', 'status' => 'Success', 'color' => 'green'],
-                                    ['name' => 'Victor Arnold', 'date' => '17 Okt, 2024', 'amount' => 'Rp 402.500', 'status' => 'Success', 'color' => 'green'],
-                                    ['name' => 'Elmer McGee', 'date' => '22 Okt, 2024', 'amount' => 'Rp 175.500', 'status' => 'Failed', 'color' => 'red'],
-                                ];
-                            @endphp
-                            @foreach($samples as $item)
-                            <tr class="hover:bg-gray-50 transition text-sm">
-                                <td class="px-6 py-4 flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-coffee/10 flex items-center justify-center text-coffee font-bold text-xs uppercase">{{ substr($item['name'], 0, 1) }}</div>
-                                    <span class="font-medium text-dark">{{ $item['name'] }}</span>
+                        <tbody class="">
+                            @foreach($orderdone as $item)
+                            <tr class="group hover:bg-cream/50 transition-all duration-300">
+                                <td class="px-6 py-4 bg-white border-y border-l border-sand group-hover:border-coffee/30 rounded-l-[1.5rem]">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-dark text-cream flex items-center justify-center font-black text-xs shadow-lg group-hover:scale-110 transition-transform">
+                                            {{ substr($item->customer_name, 0, 1) }}
+                                        </div>
+                                        <div>
+                                            <p class="font-black text-dark text-sm leading-none">{{ $item->customer_name }}</p>
+                                            <p class="text-[10px] font-bold text-coffee mt-1">#{{ $item->order_id }}</p>
+                                        </div>
+                                    </div>
                                 </td>
-                                <td class="px-6 py-4 text-gray-500">{{ $item['date'] }}</td>
-                                <td class="px-6 py-4 font-semibold text-dark">{{ $item['amount'] }}</td>
-                                <td class="px-6 py-4">
-                                    <span class="px-3 py-1 rounded-full text-xs font-bold 
-                                        {{ $item['color'] == 'orange' ? 'bg-orange-100 text-orange-600' : '' }}
-                                        {{ $item['color'] == 'green' ? 'bg-green-100 text-green-600' : '' }}
-                                        {{ $item['color'] == 'red' ? 'bg-red-100 text-red-600' : '' }}">
-                                        {{ $item['status'] }}
+                                <td class="px-6 py-4 bg-white border-y border-sand group-hover:border-coffee/30">
+                                    <span class="text-xs font-bold text-dark/60 tracking-tight">{{ $item->created_at }}</span>
+                                </td>
+                                <td class="px-6 py-4 bg-white border-y border-sand group-hover:border-coffee/30">
+                                    <span class="font-black text-dark">Rp {{ number_format($item->total_price, 0, ',', '.') }}</span>
+                                </td>
+                                <td class="px-6 py-4 bg-white border-y border-sand group-hover:border-coffee/30 text-center">
+                                    <span class="text-[10px] font-black border border-sand px-3 py-1 rounded-lg text-sand uppercase">{{ $item->payment_method }}</span>
+                                </td>
+                                <td class="px-6 py-4 bg-white border-y border-r border-sand group-hover:border-coffee/30 rounded-r-[1.5rem] text-right">
+                                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-tighter
+                                       ">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span>
+                                        {{ $item->status }}
                                     </span>
                                 </td>
                             </tr>
@@ -68,105 +102,50 @@
                     </table>
                 </div>
             </div>
-
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <div class="p-6 border-b border-gray-100 flex justify-between items-center">
-                    <h3 class="font-bold text-dark text-lg">Tagihan & Pembayaran</h3>
-                    <button class="text-sm text-coffee font-medium border border-coffee px-3 py-1 rounded-md hover:bg-cream transition">Filter</button>
-                </div>
-                <div class="p-6 space-y-4">
-                    <div class="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition border border-transparent hover:border-gray-100">
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 bg-cream rounded-lg flex items-center justify-center text-coffee">⚡</div>
-                            <div>
-                                <p class="font-bold text-dark text-sm">Listrik & Air</p>
-                                <p class="text-xs text-gray-400">21 Sep, 2024</p>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-bold text-dark text-sm">Rp 450.000</p>
-                            <p class="text-[10px] text-green-500 font-bold uppercase">Selesai</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition border border-transparent hover:border-gray-100">
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 bg-cream rounded-lg flex items-center justify-center text-coffee">☕</div>
-                            <div>
-                                <p class="font-bold text-dark text-sm">Stok Biji Kopi</p>
-                                <p class="text-xs text-gray-400">18 Sep, 2024</p>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-bold text-dark text-sm">Rp 2.100.000</p>
-                            <p class="text-[10px] text-orange-500 font-bold uppercase">Pending</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="space-y-8">
             
-            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-bold text-dark">Aktivitas Transaksi</h3>
-                    <div class="flex gap-2 text-[10px] font-bold">
-                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-coffee"></span> Pendapatan</span>
-                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-orange-400"></span> Pengeluaran</span>
+            <div class="bg-white rounded-[2.5rem] p-8 border border-sand shadow-sm relative overflow-hidden">
+                <div class="relative z-10">
+                    <h3 class="font-black text-dark mb-6 tracking-tight">Target <span class="text-coffee font-serif italic">Penjualan</span></h3>
+                    
+                    <div class="space-y-6">
+                        <div class="relative pt-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[10px] font-black uppercase text-sand tracking-widest">Operasional</span>
+                                <span class="text-xs font-black text-dark">70%</span>
+                            </div>
+                            <div class="overflow-hidden h-2 text-xs flex rounded-full bg-cream">
+                                <div style="width:70%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-coffee rounded-full"></div>
+                            </div>
+                        </div>
+                        <div class="relative pt-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[10px] font-black uppercase text-sand tracking-widest">Bahan Baku</span>
+                                <span class="text-xs font-black text-dark">25%</span>
+                            </div>
+                            <div class="overflow-hidden h-2 text-xs flex rounded-full bg-cream">
+                                <div style="width:25%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-dark rounded-full"></div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="flex items-end justify-between h-32 gap-2 px-2">
-                    <div class="flex flex-col gap-1 w-full h-full justify-end">
-                        <div class="w-full bg-coffee rounded-t-sm" style="height: 70%"></div>
-                        <div class="w-full bg-orange-200 rounded-t-sm" style="height: 40%"></div>
+
+                    <div class="mt-10 p-6 bg-cream/50 rounded-[2rem] border border-dashed border-sand">
+                        <h4 class="text-xl font-black text-dark tracking-tighter italic font-serif">Rp {{ number_format($target->sum('total_price') ) }}</h4>
                     </div>
-                    <div class="flex flex-col gap-1 w-full h-full justify-end">
-                        <div class="w-full bg-coffee rounded-t-sm" style="height: 50%"></div>
-                        <div class="w-full bg-orange-200 rounded-t-sm" style="height: 80%"></div>
-                    </div>
-                    <div class="flex flex-col gap-1 w-full h-full justify-end">
-                        <div class="w-full bg-coffee rounded-t-sm" style="height: 90%"></div>
-                        <div class="w-full bg-orange-200 rounded-t-sm" style="height: 30%"></div>
-                    </div>
-                    <div class="flex flex-col gap-1 w-full h-full justify-end">
-                        <div class="w-full bg-coffee rounded-t-sm" style="height: 60%"></div>
-                        <div class="w-full bg-orange-200 rounded-t-sm" style="height: 50%"></div>
-                    </div>
-                </div>
-                <div class="flex justify-between mt-4 text-[10px] text-gray-400 font-bold px-2">
-                    <span>SEN</span><span>SEL</span><span>RAB</span><span>KAM</span><span>JUM</span>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 overflow-hidden relative">
-                <p class="text-gray-400 text-sm font-medium mb-1">Total Pengeluaran</p>
-                <h3 class="text-2xl font-bold text-dark mb-4">Rp 12.450.000</h3>
-                
-                <div class="absolute bottom-0 left-0 w-full">
-                    <svg class="w-full h-20" viewBox="0 0 100 40" preserveAspectRatio="none">
-                        <path d="M0 40 C 20 30, 40 38, 60 15 C 80 5, 100 20, 100 20 L 100 40 L 0 40 Z" fill="url(#coffeeGradient)" opacity="0.15"/>
-                        <path d="M0 40 C 20 30, 40 38, 60 15 C 80 5, 100 20, 100 20" stroke="#6F4E37" stroke-width="1" fill="none"/>
-                        <defs>
-                            <linearGradient id="coffeeGradient" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stop-color="#6F4E37"/>
-                                <stop offset="100%" stop-color="#ffffff"/>
-                            </linearGradient>
-                        </defs>
+            <div class="bg-coffee rounded-[2.5rem] p-8 text-cream shadow-2xl relative group cursor-pointer overflow-hidden">
+                <div class="absolute inset-0 bg-dark/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                <div class="relative z-10">
+                    <svg class="w-10 h-10 mb-6 text-cream opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                </div>
-                <div class="flex justify-between mt-12 text-[10px] text-gray-300 relative z-10">
-                    <span>2022</span><span>2023</span><span>2024</span>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div class="bg-cream p-4 rounded-xl border border-coffee/10">
-                    <p class="text-[10px] font-bold text-coffee uppercase">Pesanan Aktif</p>
-                    <p class="text-xl font-bold text-dark">1,046</p>
-                </div>
-                <div class="bg-gray-100 p-4 rounded-xl">
-                    <p class="text-[10px] font-bold text-gray-500 uppercase">Selesai</p>
-                    <p class="text-xl font-bold text-dark">263</p>
+                    <h4 class="text-xl font-black tracking-tight leading-tight mb-2">Butuh Laporan Lengkap?</h4>
+                    <p class="text-xs font-medium text-cream/60 leading-relaxed mb-6">Ekspor data transaksi bulanan Anda ke format PDF atau Excel sekarang.</p>
+                    <button class="w-full py-4 bg-cream text-coffee rounded-2xl font-black uppercase text-[10px] tracking-widest shadow-xl active:scale-95 transition-all">Download Report</button>
                 </div>
             </div>
 

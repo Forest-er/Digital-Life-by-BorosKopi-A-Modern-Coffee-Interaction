@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<main class="flex-1 p-8 bg-cream min-h-screen">
+<main class="flex-1 bg-cream min-h-screen">
     <div class="flex justify-between items-end mb-10">
         <div>
             <h2 class="text-4xl font-black text-dark tracking-tighter">Daftar <span class="text-coffee">Pesanan.</span></h2>
@@ -23,8 +23,8 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-sand/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-dark/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
             <div class="flex justify-between items-center mb-4">
                 <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-all">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
@@ -34,7 +34,7 @@
             <p class="text-sm font-bold text-dark/40">Pesanan Aktif</p>
         </div>
 
-        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-sand/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-dark/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
             <div class="flex justify-between items-center mb-4">
                 <div class="w-12 h-12 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition-all">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -44,7 +44,7 @@
             <p class="text-sm font-bold text-dark/40">Sedang Diproses</p>
         </div>
 
-        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-sand/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-dark/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
             <div class="flex justify-between items-center mb-4">
                 <div class="w-12 h-12 bg-purple-50 text-purple-500 rounded-2xl flex items-center justify-center group-hover:bg-purple-500 group-hover:text-white transition-all">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -66,7 +66,7 @@
         </div>
     </div>
 
-    <div class="bg-white rounded-[2.5rem] shadow-sm border border-dark/30 overflow-hidden">
+    <div class="bg-white rounded-[2rem] shadow-sm border border-dark/30 overflow-hidden">
         <div class="flex flex-col md:flex-row items-center justify-between px-10 py-8 border-b border-coffee/20 gap-6">
             <div class="flex bg-cream p-1.5 rounded-2xl items-center">
                 <button class="px-6 py-2.5 bg-white shadow-sm rounded-xl text-dark font-bold text-sm transition-all">Semua</button>

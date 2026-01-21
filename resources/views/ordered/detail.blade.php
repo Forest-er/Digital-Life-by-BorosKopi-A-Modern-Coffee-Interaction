@@ -1,214 +1,192 @@
 @extends('layouts.app')
+
 @section('content')
-        <main class="flex-1 p-8">
-            <!-- Header -->
-            <div class="flex items-center gap-4 mb-8">
-                <a href="{{ route('order') }}" class="w-10 h-10 rounded-lg bg-white border border-sand flex items-center justify-center hover:shadow-md transition">
-                    <svg class="w-5 h-5 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                    </svg>
-                </a>
-                <div>
-                    <h2 class="text-3xl font-bold text-dark">Detail Pesanan #{{ $Orders->order_id }}</h2>
+<main class="flex-1 bg-cream min-h-screen">
+    <div class="flex items-center gap-6 mb-10">
+        <a href="{{ route('order') }}" class="group w-12 h-12 rounded-2xl bg-white border border-sand flex items-center justify-center hover:bg-dark transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-x-1">
+            <svg class="w-6 h-6 text-dark group-hover:text-cream transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        </a>
+        <div>
+            <div class="flex items-center gap-3">
+                <h2 class="text-4xl font-black text-dark tracking-tighter">Detail <span class="text-coffee">Pesanan.</span></h2>
+                <span class="px-4 py-1 bg-dark text-cream text-[10px] font-black rounded-full uppercase tracking-[0.2em]">#{{ $Orders->order_id }}</span>
+            </div>
+            <p class="text-dark/50 font-medium mt-1">Dibuat pada {{ ($Orders->created_at)->format('d M Y • H:i') }}</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
+         <div class="lg:col-span-2 space-y-4">
+             <!-- Account Details -->
+             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                 <div class="flex justify-between items-center mb-6">
+                     <h3 class="text-xl font-bold text-dark">Detail Akun</h3>
+                 </div>
+                 
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                     <div>
+                         <label class="block text-sm font-medium text-gray-700 mb-2">Email ID</label>
+                         <div class="px-4 py-3 bg-gray-50 rounded-lg border border-sand">
+                             <p class="text-dark">{{ $Orders->customer_name }}</p>
+                         </div>
+                     </div>
+                     <div>
+                         <label class="block text-sm font-medium text-gray-700 mb-2">Nomor Telepon</label>
+                         <div class="px-4 py-3 bg-gray-50 rounded-lg border border-sand flex items-center justify-between">
+                             <p class="text-dark">{{ $Orders->number_phone }}</p>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <!-- Delivery Address -->
+             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                 <div class="flex justify-between items-center mb-6">
+                     <h3 class="text-xl font-bold text-dark">Alamat Pengiriman</h3>
+                 </div>
+                 
+                 <div class="px-4 py-3 bg-gray-50 rounded-lg border border-sand">
+                     <p class="text-dark">{{ $Orders->address }}</p>
+                 </div>
+             </div>
+             <!-- Payment Details -->
+             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                 <div class="flex justify-between items-center mb-6">
+                     <h3 class="text-xl font-bold text-dark">Detail Pembayaran</h3>
+                 </div>
+                 
+                 <div class="space-y-4">
+                     <!-- Payment Method -->
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                         <div class="px-6 py-4 bg-white rounded-xl border border-gray-200 shadow-sm">
+                             <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Status Pesanan</h3>
+                             
+                             @php
+                                 // Logika warna status otomatis
+                                 $statusColor = match($Orders->status) {
+                                     'menunggu' => 'bg-yellow-100 text-yellow-700 border-yellow-200',
+                                     'proses'   => 'bg-blue-100 text-blue-700 border-blue-200',
+                                     'selesai'  => 'bg-green-100 text-green-700 border-green-200',
+                                     default    => 'bg-gray-100 text-gray-700 border-gray-200',
+                                 };
+                             @endphp
+                             <div class="inline-flex px-4 py-2 rounded-full border {{ $statusColor }} font-bold text-sm capitalize">
+                                 <span class="mr-2">●</span> {{ $Orders->status }}
+                             </div>
+                         </div>
+                         <div class="px-6 py-4 bg-white rounded-xl border border-coffee shadow-sm">
+                             <h3 class="text-sm font-semibold text-dark uppercase tracking-wider mb-3">Metode Pembayaran</h3>
+                             
+                             <label class="flex items-center gap-3 px-4 rounded-lg cursor-pointer hover:bg-white transition">
+                                 <div class="inline-flex px-4 py-2 rounded-full border border-coffee font-bold text-sm capitalize">
+                                     <span class="mr-2">●</span> {{ $Orders->status }}
+                                 </div>
+                             </label>
+                         </div>
+                     </div>
+                     <div class="grid grid-cols-3 gap-4">
+                         <div>
+                             <label class="block text-sm font-medium text-gray-700 mb-2">Hari</label>
+                             <input disabled type="text" placeholder="{{ ($Orders->created_at)->format('D | d') }}" class="w-full px-4 py-3 border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-coffee/20">
+                         </div>
+                         <div>
+                             <label class="block text-sm font-medium text-gray-700 mb-2">Bulan</label>
+                             <input disabled type="text" placeholder="{{ ($Orders->created_at)->format('M') }}" class="w-full px-4 py-3 border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-coffee/20">
+                         </div>
+                         <div>
+                             <label class="block text-sm font-medium text-gray-700 mb-2">Tahun</label>
+                             <input disabled type="text" placeholder="{{ ($Orders->created_at)->format('Y') }}" class="w-full px-4 py-3 border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-coffee/20">
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <!-- Action Buttons -->
+             <div class="">
+                <form action="{{ route('order.update', $Orders->order_id) }}" method="POST" class="flex flex-col gap-4">
+                     @csrf
+                     <div class="flex gap-4">
+                         <select name="status" class="flex-1 px-4 py-3 rounded-xl border-2 border-sand focus:border-coffee outline-none bg-white">
+                             <option value="menunggu" {{ $Orders->status == 'menunggu' ? 'selected' : '' }}>Menunggu</option>
+                             <option value="proses" {{ $Orders->status == 'proses' ? 'selected' : '' }}>Proses</option>
+                             <option value="selesai" {{ $Orders->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                             <option value="dibatalkan" {{ $Orders->status == 'dibatalkan' ? 'selected' : '' }}>Batalkan</option>
+                         </select>
+                         <button type="submit" class="flex-1 items-center px-6 py-3.5 bg-white border-2 border-coffee text-coffee rounded-xl font-semibold hover:bg-coffee/5 transition">
+                             Update Pesanan
+                         </button>
+                     </div>
+                 </form>
+             </div>
+         </div>
+
+        <div class="lg:col-span-1 sticky top-8">
+            <div class="bg-white rounded-xl shadow-xl border border-sand overflow-hidden flex flex-col">
+                <div class="p-8 bg-cream/30 border-b border-dashed border-sand relative">
+                    <div class="absolute -left-3 -bottom-3 w-6 h-6 bg-cream rounded-full border border-sand"></div>
+                    <div class="absolute -right-3 -bottom-3 w-6 h-6 bg-cream rounded-full border border-sand"></div>
+                    
+                    <h3 class="text-2xl font-black text-dark tracking-tighter">Ringkasan <span class="text-coffee font-serif italic">Bill.</span></h3>
+                </div>
+
+                <div class="p-8 space-y-6">
+                    @foreach ($OrdersProduct as $OP)
+                    <div class="flex gap-4 group">
+                        <div class="relative">
+                            <div class="w-16 h-16 bg-sand/30 rounded-2xl overflow-hidden group-hover:rotate-3 transition-transform duration-300">
+                                <img src="https://images.unsplash.com/photo-1541167760496-162955ed8a9f?q=80&w=100&auto=format&fit=crop" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                            </div>
+                            <span class="absolute -top-2 -right-2 w-6 h-6 bg-dark text-cream text-[10px] font-black rounded-lg flex items-center justify-center shadow-lg">
+                                {{ $OP->quantity }}x
+                            </span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-black text-dark text-sm leading-tight group-hover:text-coffee transition-colors">{{ $OP->product->product_name }}</h4>
+                            <p class="text-[10px] font-bold text-sand uppercase tracking-wider mt-1">Item ID: #{{ $OP->product->id }}</p>
+                            <div class="flex justify-between items-end mt-2">
+                                <span class="text-xs font-medium text-dark/40 italic">@Rp {{ number_format($OP->product->price, 0, ',', '.') }}</span>
+                                <span class="font-black text-dark tracking-tight">Rp {{ number_format(($OP->product->price * $OP->quantity), 0, ',', '.') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+
+                <div class="px-8 pb-8 pt-4 space-y-4 border-t border-sand/30 mx-8">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-bold text-sand uppercase tracking-widest">Subtotal</span>
+                        <span class="font-black text-dark">Rp {{ number_format($OrdersProduct->sum('price'), '0', '.', '.') }}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-bold uppercase tracking-widest text-coffee">Ongkir</span>
+                        <span class="font-black text-coffee uppercase text-xs tracking-tighter font-serif">Rp 10.000</span>
+                    </div>
+                </div>
+
+                <div class="m-8 p-8 bg-dark rounded-[2rem] flex flex-col items-center justify-center relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-coffee/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                    <p class="text-cream/50 text-[10px] font-black uppercase tracking-[0.3em] mb-2 relative">Total Tagihan</p>
+                    <h2 class="text-3xl font-black text-cream relative tracking-tighter">
+                        <span class="text-coffee text-lg uppercase font-serif mr-1">Rp</span>{{ number_format($OrdersProduct->sum('price') + 10000, 0, ',', '.') }}
+                    </h2>
+                </div>
+
+                @php
+                    $statusConfig = match($Orders->status) {
+                        'Menunggu' => ['bg' => 'bg-amber-100', 'text' => 'text-amber-700', 'label' => 'Unpaid Bill'],
+                        'Proses' => ['bg' => 'bg-blue-100', 'text' => 'text-blue-700', 'label' => 'In Progress'],
+                        'Selesai' => ['bg' => 'bg-green-100', 'text' => 'text-green-700', 'label' => 'Successfully Paid'],
+                        default => ['bg' => 'bg-red-100', 'text' => 'text-red-700', 'label' => 'Canceled'],
+                    };
+                @endphp
+                <div class="px-8 py-5 {{ $statusConfig['bg'] }} flex items-center justify-center gap-3">
+                    <div class="w-2 h-2 rounded-full {{ $statusConfig['text'] }} bg-current animate-ping"></div>
+                    <span class="text-[10px] font-black uppercase tracking-[0.2em] {{ $statusConfig['text'] }}">
+                        {{ $statusConfig['label'] }}
+                    </span>
                 </div>
             </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Left Column - Order Details -->
-                <div class="lg:col-span-2 space-y-6">
-                    <!-- Account Details -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-xl font-bold text-dark">Detail Akun</h3>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Email ID</label>
-                                <div class="px-4 py-3 bg-gray-50 rounded-lg border border-sand">
-                                    <p class="text-dark">{{ $Orders->customer_name }}</p>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Nomor Telepon</label>
-                                <div class="px-4 py-3 bg-gray-50 rounded-lg border border-sand flex items-center justify-between">
-                                    <p class="text-dark">{{ $Orders->number_phone }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Delivery Address -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-xl font-bold text-dark">Alamat Pengiriman</h3>
-                        </div>
-                        
-                        <div class="px-4 py-3 bg-gray-50 rounded-lg border border-sand">
-                            <p class="text-dark">{{ $Orders->address }}</p>
-                        </div>
-                    </div>
-
-                    <!-- Payment Details -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-xl font-bold text-dark">Detail Pembayaran</h3>
-                        </div>
-                        
-                        <div class="space-y-4">
-                            <!-- Payment Method -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                                <div class="px-6 py-4 bg-white rounded-xl border border-gray-200 shadow-sm">
-                                    <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Status Pesanan</h3>
-                                    
-                                    @php
-                                        // Logika warna status otomatis
-                                        $statusColor = match($Orders->status) {
-                                            'menunggu' => 'bg-yellow-100 text-yellow-700 border-yellow-200',
-                                            'proses'   => 'bg-blue-100 text-blue-700 border-blue-200',
-                                            'selesai'  => 'bg-green-100 text-green-700 border-green-200',
-                                            default    => 'bg-gray-100 text-gray-700 border-gray-200',
-                                        };
-                                    @endphp
-
-                                    <div class="inline-flex px-4 py-2 rounded-full border {{ $statusColor }} font-bold text-sm capitalize">
-                                        <span class="mr-2">●</span> {{ $Orders->status }}
-                                    </div>
-                                </div>
-
-                                <div class="px-6 py-4 bg-white rounded-xl border border-coffee shadow-sm">
-                                    <h3 class="text-sm font-semibold text-dark uppercase tracking-wider mb-3">Metode Pembayaran</h3>
-                                    
-                                    <label class="flex items-center gap-3 px-4 rounded-lg cursor-pointer hover:bg-white transition">
-                                        <div class="inline-flex px-4 py-2 rounded-full border border-coffee font-bold text-sm capitalize">
-                                            <span class="mr-2">●</span> {{ $Orders->status }}
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-3 gap-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Hari</label>
-                                    <input disabled type="text" placeholder="{{ ($Orders->created_at)->format('D | d') }}" class="w-full px-4 py-3 border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-coffee/20">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Bulan</label>
-                                    <input disabled type="text" placeholder="{{ ($Orders->created_at)->format('M') }}" class="w-full px-4 py-3 border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-coffee/20">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Tahun</label>
-                                    <input disabled type="text" placeholder="{{ ($Orders->created_at)->format('Y') }}" class="w-full px-4 py-3 border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-coffee/20">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="">
-                       <form action="{{ route('order.update', $Orders->order_id) }}" method="POST" class="flex flex-col gap-4">
-                            @csrf
-                            <div class="flex gap-4">
-                                <select name="status" class="flex-1 px-4 py-3 rounded-xl border-2 border-sand focus:border-coffee outline-none bg-white">
-                                    <option value="menunggu" {{ $Orders->status == 'menunggu' ? 'selected' : '' }}>Menunggu</option>
-                                    <option value="proses" {{ $Orders->status == 'proses' ? 'selected' : '' }}>Proses</option>
-                                    <option value="selesai" {{ $Orders->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                                    <option value="dibatalkan" {{ $Orders->status == 'dibatalkan' ? 'selected' : '' }}>Batalkan</option>
-                                </select>
-                                <button type="submit" class="flex-1 items-center px-6 py-3.5 bg-white border-2 border-coffee text-coffee rounded-xl font-semibold hover:bg-coffee/5 transition">
-                                    Update Pesanan
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Right Column - Order Summary -->
-                <div class="lg:col-span-1">
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-8">
-                        <h3 class="text-xl font-bold text-dark mb-6">Ringkasan Pesanan</h3>
-
-                        <!-- Order Items -->
-                        <div class="space-y-4 mb-6 pb-6 border-b border-sand">
-                            @foreach ($OrdersProduct as $OP)            
-                            <div class="flex gap-4">
-                                <div class="w-16 h-16 bg-gradient-to-br from-orange-300 to-amber-400 rounded-xl flex-shrink-0"></div>
-                                <div class="flex-1">
-                                    <h4 class="font-semibold text-dark mb-1">{{ $OP->product->product_name }}</h4>
-                                    <p class="text-sm text-gray-500 mb-2">{{ $OP->product->description }}</p>
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-sm text-gray-600">Rp {{ number_format($OP->product->price, 0, ',', '.') }} × {{ $OP->quantity }}</span>
-                                        <span class="font-semibold text-dark">Rp {{ number_format(($OP->product->price * $OP->quantity), 0, ',', '.') }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-
-                        <!-- Price Summary -->
-                        <div class="space-y-3 mb-6 pb-6 border-b border-sand">
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600">Sub Total</span>
-                                <span class="font-semibold text-dark">Rp {{ number_format($OrdersProduct->sum('price'), '0', '.', '.') }}</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600">Diskon (10%)</span>
-                                <span class="font-semibold text-green-600">-Rp 18.300</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600">Pajak</span>
-                                <span class="font-semibold text-dark">Rp 0</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600">Pengiriman</span>
-                                <span class="font-semibold text-coffee">Gratis</span>
-                            </div>
-                        </div>
-
-                        <!-- Total -->
-                        <div class="flex justify-between items-center mb-6">
-                            <span class="text-xl font-bold text-dark">Total</span>
-                            <span class="text-2xl font-bold text-coffee">Rp {{ number_format($OrdersProduct->sum('price') - 18300, 0, ',', '.') }}</span>
-                        </div>
-
-                        <!-- Additional Info -->
-                        <div class="space-y-3">
-                            <details class="group">
-                                <summary class="flex justify-between items-center cursor-pointer text-sm text-gray-600 hover:text-dark">
-                                    <span>Pajak termasuk. <span class="underline">Pengiriman</span> dihitung saat checkout.</span>
-                                    <svg class="w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m0 0l-7-7m7 7l7-7"></path>
-                                    </svg>
-                                </summary>
-                                <p class="mt-3 text-sm text-gray-500 pl-1">Pengiriman gratis untuk pesanan di atas Rp 100.000 dalam radius 5km dari toko.</p>
-                            </details>
-
-                            <details class="group">
-                                <summary class="flex justify-between items-center cursor-pointer text-sm text-gray-600 hover:text-dark">
-                                    <span>Estimasi Pengiriman: 25 April, 2025</span>
-                                    <svg class="w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m0 0l-7-7m7 7l7-7"></path>
-                                    </svg>
-                                </summary>
-                                <p class="mt-3 text-sm text-gray-500 pl-1">Pesanan Anda akan disiapkan dalam 15-30 menit dan dikirim segera setelahnya.</p>
-                            </details>
-                        </div>
-
-                        <!-- Status Badge -->
-                        <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="font-semibold text-yellow-900">Menunggu Pembayaran</p>
-                                    <p class="text-sm text-yellow-700">Selesaikan pembayaran untuk memproses pesanan</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+        </div>
+    </div>
+</main>
 @endsection
