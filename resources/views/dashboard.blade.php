@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <main class=" bg-cream min-h-screen w-full font-sans text-dark">
     
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -67,25 +68,51 @@
         
         <div class="lg:col-span-8 space-y-6">
             
-            <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-sand/30">
-                <div class="flex justify-between items-center mb-8">
-                    <h3 class="text-xl font-bold">Aktivitas Penjualan</h3>
-                    <select class="bg-cream border-none rounded-xl text-sm font-bold text-coffee px-4 py-2">
-                        <option>Minggu Ini</option>
-                    </select>
+            <div class="bg-white rounded-[2.5rem] p-8 border border-[#D8D2C2] shadow-sm">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-black text-[#4A4947]">Aktivitas Penjualan</h3>
+                    <span class="px-4 py-1 bg-[#FAF7F0] text-[#B17457] text-xs font-bold rounded-full">Minggu Ini</span>
                 </div>
-                <div class="flex items-end justify-between h-48 gap-2">
-                    @php $heights = ['h-24', 'h-32', 'h-40', 'h-28', 'h-44', 'h-36', 'h-20']; @endphp
-                    @foreach(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $index => $day)
-                    <div class="flex-1 flex flex-col items-center gap-3">
-                        <div class="w-full max-w-[40px] {{ $heights[$index] }} bg-sand hover:bg-coffee rounded-t-xl transition-all duration-500 cursor-pointer relative group">
-                            <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-dark text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Rp 200k</div>
-                        </div>
-                        <span class="text-xs font-bold text-gray-400">{{ $day }}</span>
-                    </div>
-                    @endforeach
+                
+                <div class="h-[300px]">
+                    <canvas id="salesChart"></canvas>
                 </div>
             </div>
+
+            <script>
+                const ctx = document.getElementById('salesChart').getContext('2d');
+                const salesChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                        datasets: [{
+                            label: 'Penjualan',
+                            data: @json($data), // Mengambil data dari Controller
+                            backgroundColor: '#E5E1DA', // Warna krem seperti di gambar kamu
+                            hoverBackgroundColor: '#B17457', // Warna cokelat saat dihover
+                            borderRadius: 20, // Membuat ujung bar melengkung (rounded)
+                            borderSkipped: false,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false } // Sembunyikan label dataset
+                        },
+                        scales: {
+                            y: { display: false, grid: { display: false } },
+                            x: {
+                                grid: { display: false },
+                                ticks: {
+                                    color: '#4A4947',
+                                    font: { weight: 'bold' }
+                                }
+                            }
+                        }
+                    }
+                });
+            </script>
 
             <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-sand/30">
                 <div class="flex justify-between items-center mb-6">
@@ -121,13 +148,13 @@
             <div class="bg-coffee rounded-[2.5rem] p-8 text-white shadow-lg shadow-coffee/20">
                 <h3 class="text-xl font-bold mb-6 italic">Quick Actions</h3>
                 <div class="grid grid-cols-2 gap-4">
-                    <button class="flex flex-col items-center justify-center p-4 bg-white/10 hover:bg-white/20 rounded-[1.5rem] transition-all border border-white/10 group">
+                    <button onclick="location.href='{{ route('order.add') }}'" class="flex flex-col items-center justify-center p-4 bg-white/10 hover:bg-white/20 rounded-[1.5rem] transition-all border border-white/10 group">
                         <span class="text-2xl mb-2 group-hover:scale-125 transition-transform">➕</span>
                         <span class="text-[10px] font-bold uppercase tracking-widest">New Order</span>
                     </button>
-                    <button class="flex flex-col items-center justify-center p-4 bg-white/10 hover:bg-white/20 rounded-[1.5rem] transition-all border border-white/10 group">
+                    <button onclick="location.href='{{ route('product.add') }}'" class="flex flex-col items-center justify-center p-4 bg-white/10 hover:bg-white/20 rounded-[1.5rem] transition-all border border-white/10 group">
                         <span class="text-2xl mb-2 group-hover:scale-125 transition-transform">📋</span>
-                        <span class="text-[10px] font-bold uppercase tracking-widest">Report</span>
+                        <span class="text-[10px] font-bold uppercase tracking-widest">Tambah Menu</span>
                     </button>
                 </div>
             </div>
