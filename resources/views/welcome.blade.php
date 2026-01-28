@@ -43,7 +43,7 @@
 
         <div class="lg:w-1/2 mt-8 lg:mt-0 relative hero-image-container">
             <div class="hero-image-glow"></div>
-            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=1000"
+            <img src="{{ asset('storage/images/owner1.jpeg') }}"
                 alt="Coffee Cup"
                 class="hero-image w-full max-w-md mx-auto rounded-full aspect-square object-cover border-[15px] border-white">
         </div>
@@ -143,6 +143,5 @@
             <img src="{{ asset('storage/images/logo.png') }}" alt="Logo BorosKopi" class="fade-in">
         </div>
     </section>
-
     
  @endsection
