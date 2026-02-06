@@ -150,8 +150,9 @@
                 </div>
             </div>
             <div class="mx-auto max-w-2xl text-center">
-                <h2 class="text-4xl font-semibold tracking-tight text-balance text-[#4A4947] sm:text-5xl">Contact Us</h2>
-                <p class="mt-2 text-lg/8 text-[#4A4947]/70">Aute magna irure deserunt veniam aliqua magna enim voluptate.
+                <h2 class="text-4xl lg:text-5xl font-serif mt-3 tracking-tight text-balance text-[#4A4947] sm:text-5xl">
+                    Contact Us</h2>
+                <p class="mt-2 text-lg/8 text-[#4A4947]/70"> Hubungi kami untuk informasi lebih lanjut.
                 </p>
             </div>
             <form action="https://api.web3forms.com/submit" method="POST" class="mx-auto mt-16 max-w-xl sm:mt-20">
