@@ -100,7 +100,7 @@
                             @endif
 
                             <div class="relative aspect-square rounded-[2rem] overflow-hidden mb-6">
-                                <img src="{{ asset('storage/' . $p->image) }}" class="w-full h-full object-cover {{ $p->stock <= 0 ? 'grayscale' : 'group-hover:scale-110' }} transition-transform duration-700">
+                                <img src="{{ asset('storage/' . $p->image) }}" class="w-full h-full object-cover {{ $p->stock_quantity <= 0 ? 'grayscale' : 'group-hover:scale-110' }} transition-transform duration-700">
 
                                 <div class="absolute top-4 right-4 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-[9px] font-black uppercase text-[#4A4947]">
                                     {{ $p->category->category_name }}

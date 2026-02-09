@@ -12,6 +12,10 @@ use function Symfony\Component\Clock\now;
 
 class dashboardController extends Controller
 {
+    public function welcome() {
+        $products = product::with('category')->get();
+        return view('welcome', compact('products'));
+    }
     /**
      * Display a listing of the resource.
      */

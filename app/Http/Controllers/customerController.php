@@ -65,6 +65,9 @@ class customerController extends Controller
         $orderItem->order_id = $request->input('order_id');
         $orderItem->product_id = $request->input('product_id');
         $orderItem->quantity = $request->input('quantity');
+        $products = product::find($request->input('product_id'));
+        $products->stock_quantity -= $request->input('quantity');
+        $products->save();
         $orderItem->price = $price;
         $orderItem->save();
         return redirect()->route('order.add')->with('success', 'Menu berhasil ditambahkan ke pesanan.');
@@ -76,19 +79,6 @@ class customerController extends Controller
         $order = orders::where('order_id', $request->input('order_id'))->first();
         $orderItems = order_items::where('order_id', $request->input('order_id'))->get();
         $order->total_price = $orderItems->sum('price') + 10000;
-        $stokKurang = false;
-        foreach ($orderItems as $item) {
-            $product = product::find($item->product_id);
-            if ($product->stock_quantity < $item->quantity) {
-                $stokKurang = true;
-                break;
-            }
-            $product->stock_quantity -= $item->quantity;
-            $product->save();
-        }
-        if ($stokKurang) {
-            return redirect()->back()->with('error', 'Stok produk tidak mencukupi.');
-        }
         $order->save();
         session()->forget('current_order_id');
         return redirect()->route('order.whatsapp', ['order_id' => $order->order_id])->with('success', 'Pesanan berhasil diselesaikan.');

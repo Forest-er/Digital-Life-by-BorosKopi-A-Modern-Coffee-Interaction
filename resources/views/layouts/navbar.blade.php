@@ -448,6 +448,21 @@
             opacity: 1;
             transform: translateY(0);
         }
+            /* Styling agar scrollbar terlihat estetik (Custom Scrollbar) */
+    .custom-scrollbar::-webkit-scrollbar {
+        height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: #FAF7F0;
+        border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #D8D2C2;
+        border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #B17457;
+    }
     </style>
 </head>
 
@@ -460,7 +475,7 @@
         </a>
 
         <div class="hidden md:flex gap-8 text-sm font-semibold">
-            <a href="#home" class="hover:text-brand-primary transition-colors duration-300">Home</a>
+            <a href="{{ route('home') }}" class="hover:text-brand-primary transition-colors duration-300">Home</a>
             <a href="#menu" class="hover:text-brand-primary transition-colors duration-300">Our Menu</a>
             <a href="#about" class="hover:text-brand-primary transition-colors duration-300">About Us</a>
             <a href="#contact" class="hover:text-brand-primary transition-colors duration-300">Contact</a>

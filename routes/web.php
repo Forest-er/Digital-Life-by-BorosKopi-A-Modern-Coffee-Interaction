@@ -8,9 +8,7 @@ use App\Http\Controllers\productController;
 use App\Http\Controllers\customerController;
 use App\Http\Controllers\daftarController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [dashboardController::class, 'welcome'])->name('home');
 
 Route::get('/dashboard', [dashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 

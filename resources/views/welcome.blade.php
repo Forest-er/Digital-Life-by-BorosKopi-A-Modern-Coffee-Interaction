@@ -49,60 +49,55 @@
     </section>
 
     <!-- Menu Section -->
-    <section id="menu" class="bg-white py-20 lg:py-32 px-6 lg:px-20">
-        <div class="text-center mb-16 fade-in">
-            <span class="text-brand-primary font-bold tracking-widest uppercase text-sm">Cafe Menu</span>
-            <h2 class="text-4xl lg:text-5xl font-serif mt-3">Choose your favorite coffee</h2>
+    <section id="menu" class="bg-brand-cream py-20 lg:py-32 px-6 lg:px-20 overflow-hidden">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 fade-in">
+            <div>
+                <span class="text-brand-primary font-black tracking-[0.3em] uppercase text-xs">Cafe Menu</span>
+                <h2 class="text-4xl lg:text-5xl font-serif mt-3 text-brand-dark">Choose your <br><span class="italic text-brand-primary">favorite coffee</span></h2>
+            </div>
+
+            <div class="hidden md:flex items-center gap-3 text-brand-dark/40 text-sm font-bold">
+                <span>Geser untuk lihat lainnya</span>
+                <div class="flex gap-2">
+                    <div class="w-8 h-1 bg-brand-primary rounded-full"></div>
+                    <div class="w-4 h-1 bg-brand-beige rounded-full"></div>
+                </div>
+            </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-            <!-- Menu Item 1 -->
-            <div class="menu-card group cursor-pointer fade-in">
-                <div class="menu-card-image aspect-[4/5]">
-                    <img src="https://images.unsplash.com/photo-1541167760496-162955ed8a9f?auto=format&fit=crop&q=80&w=600"
-                        class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-                        alt="Cafe Americano">
+        <div class="flex overflow-x-auto gap-8 pb-10 custom-scrollbar snap-x snap-mandatory">
+            @foreach ($products as $p)
+            <div class="min-w-[280px] md:min-w-[320px] lg:min-w-[380px] snap-start group cursor-pointer fade-in">
+                <div class="relative overflow-hidden rounded-[2.5rem] aspect-[4/5] border border-brand-beige shadow-sm bg-white">
+                    <img src="{{ asset('storage/' . $p->image) }}" alt="{{ $p->product_name }}"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-all duration-700">
                 </div>
-                <div class="p-6">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-xl font-bold">Cafe Americano</h3>
-                        <span class="text-brand-primary font-bold text-lg">$4.50</span>
-                    </div>
-                    <div class="flex text-yellow-500 text-sm">★★★★★</div>
-                </div>
-            </div>
 
-            <!-- Menu Item 2 -->
-            <div class="menu-card group cursor-pointer fade-in">
-                <div class="menu-card-image aspect-[4/5]">
-                    <img src="https://images.unsplash.com/photo-1497933322477-911b33faeb03?auto=format&fit=crop&q=80&w=600"
-                        class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-                        alt="Caramel Macchiato">
-                </div>
-                <div class="p-6">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-xl font-bold">Caramel Macchiato</h3>
-                        <span class="text-brand-primary font-bold text-lg">$5.20</span>
+                <div class="mt-6 px-2">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-black text-brand-dark tracking-tight">{{ $p->product_name }}</h3>
+                            <p class="text-xs text-brand-dark/50 font-bold uppercase tracking-widest mt-1">{{ $p->category->category_name }} SERIS</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-brand-primary font-black text-xl tracking-tighter">
+                                <span class="text-xs mr-0.5">Rp</span>{{ number_format($p->price, 0, ',', '.') }}
+                            </span>
+                        </div>
                     </div>
-                    <div class="flex text-yellow-500 text-sm">★★★★★</div>
                 </div>
             </div>
+            @endforeach
+        </div>
 
-            <!-- Menu Item 3 -->
-            <div class="menu-card group cursor-pointer fade-in">
-                <div class="menu-card-image aspect-[4/5]">
-                    <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=600"
-                        class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-                        alt="Iced Hazelnut Latte">
-                </div>
-                <div class="p-6">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-xl font-bold">Iced Hazelnut Latte</h3>
-                        <span class="text-brand-primary font-bold text-lg">$4.80</span>
-                    </div>
-                    <div class="flex text-yellow-500 text-sm">★★★★★</div>
-                </div>
-            </div>
+        <div class="flex justify-center mt-12">
+            <a href="{{ route('order.add') }}"
+            class="inline-flex items-center gap-4 bg-brand-dark hover:bg-brand-primary text-brand-cream px-10 py-5 rounded-2xl font-bold transition-all duration-500 shadow-xl hover:shadow-brand-primary/20 group">
+                <span class="italic font-serif text-lg">Pesan Sekarang</span>
+                <svg class="w-5 h-5 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+            </a>
         </div>
     </section>
 
@@ -157,7 +152,7 @@
             </div>
             <form action="https://api.web3forms.com/submit" method="POST" class="mx-auto mt-16 max-w-xl sm:mt-20">
                 <input type="hidden" name="access_key" value="99c45d23-f116-4687-8ea6-ae389ce3dc26">
-                <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+                <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-1">
                     <div>
                         <label for="first-name" class="block text-sm/6 font-semibold text-[#4A4947]">Full Name</label>
                         <div class="mt-2.5">
