@@ -500,7 +500,7 @@
             <p class="text-sm opacity-70">&copy; 2026 BorosKopi. All rights reserved.</p>
 
             <div class="flex gap-4">
-                <a href="#"
+                <a href="{{ route('home') }}"
                     class="w-12 h-12 rounded-full bg-brand-primary/20 flex items-center justify-center hover:bg-brand-primary hover:text-white transition-all duration-300 transform hover:scale-110">
                     <span class="text-sm font-bold">FB</span>
                 </a>
@@ -517,7 +517,8 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src=" https://code.jquery.com/jquery-3.5.1.min.js">
+    </script>
     <script>
         // Mobile Menu Toggle
         const hamburger = document.getElementById('hamburger');

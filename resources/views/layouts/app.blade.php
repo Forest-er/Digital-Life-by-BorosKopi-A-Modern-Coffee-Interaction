@@ -14,7 +14,7 @@
         @endif
 </head>
 <body class="bg-cream">
-    <div class="w-72 shrink-0"></div> 
+    <div class="w-72 shrink-0"></div>
         <aside class="w-72 rounded-r-2xl bg-white fixed h-screen flex flex-col border-r border-dark/30 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
             <div class="p-8 mb-4">
                 <div class="flex items-center gap-3 group cursor-pointer">
@@ -40,45 +40,55 @@
 
             <nav class="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar">
                 <p class="px-4 text-[10px] font-black text-dark uppercase tracking-[0.2em] mb-4">Main Menu</p>
-                
-                <a href="{{ route('dashboard') }}" 
-                class="flex items-center gap-4 px-5 py-4 text-[#B17457] bg-[#B17457]/5 border border-[#B17457]/10 rounded-[1.5rem] group transition-all duration-300">
-                    <div class="p-2 bg-white rounded-xl shadow-sm group-hover:shadow transition-all">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                <a href="{{ route('dashboard') }}"
+                class="flex items-center gap-4 px-5 py-4 {{ Request::routeIs('dashboard') ? 'text-[#B17457] bg-[#B17457]/5 border-[#B17457]/10' : 'text-[#4A4947] hover:bg-[#FAF7F0] border-transparent hover:border-dark/30' }} border rounded-[1.5rem] group transition-all duration-300">
+                    <div class="p-2 {{ Request::routeIs('dashboard') ? 'bg-white shadow-sm' : 'bg-transparent group-hover:bg-white' }} rounded-xl transition-all">
+                        <svg class="w-5 h-5 {{ Request::routeIs('dashboard') ? 'text-[#B17457]' : 'text-dark' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                         </svg>
                     </div>
                     <span class="font-bold text-sm tracking-tight">Dashboard</span>
                 </a>
 
-                <a href="{{ route('order') }}" 
-                class="flex items-center gap-4 px-5 py-4 text-[#4A4947] hover:bg-[#FAF7F0] rounded-[1.5rem] group transition-all duration-300 border border-transparent hover:border-dark/30">
-                    <div class="p-2 bg-transparent group-hover:bg-white rounded-xl transition-all">
-                        <svg class="w-5 h-5 text-dark group-hover:text-[#B17457]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('order') }}"
+                class="flex items-center gap-4 px-5 py-4 {{ Request::routeIs('order') ? 'text-[#B17457] bg-[#B17457]/5 border-[#B17457]/10' : 'text-[#4A4947] hover:bg-[#FAF7F0] border-transparent hover:border-dark/30' }} border rounded-[1.5rem] group transition-all duration-300">
+                    <div class="p-2 {{ Request::routeIs('order') ? 'bg-white shadow-sm' : 'bg-transparent group-hover:bg-white' }} rounded-xl transition-all">
+                        <svg class="w-5 h-5 {{ Request::routeIs('order') ? 'text-[#B17457]' : 'text-dark' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                         </svg>
                     </div>
                     <span class="font-bold text-sm tracking-tight">Pesanan</span>
                 </a>
 
-                <a href="{{ route('transaction') }}" 
-                class="flex items-center gap-4 px-5 py-4 text-[#4A4947] hover:bg-[#FAF7F0] rounded-[1.5rem] group transition-all duration-300 border border-transparent hover:border-dark/30">
-                    <div class="p-2 bg-transparent group-hover:bg-white rounded-xl transition-all">
-                        <svg class="w-5 h-5 text-dark group-hover:text-[#B17457]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('transaction') }}"
+                class="flex items-center gap-4 px-5 py-4 {{ Request::routeIs('transaction') ? 'text-[#B17457] bg-[#B17457]/5 border-[#B17457]/10' : 'text-[#4A4947] hover:bg-[#FAF7F0] border-transparent hover:border-dark/30' }} border rounded-[1.5rem] group transition-all duration-300">
+                    <div class="p-2 {{ Request::routeIs('transaction') ? 'bg-white shadow-sm' : 'bg-transparent group-hover:bg-white' }} rounded-xl transition-all">
+                        <svg class="w-5 h-5 {{ Request::routeIs('transaction') ? 'text-[#B17457]' : 'text-dark' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
                     <span class="font-bold text-sm tracking-tight">Transaksi</span>
                 </a>
 
-                <a href="{{ route('product.menu') }}" 
-                class="flex items-center gap-4 px-5 py-4 text-[#4A4947] hover:bg-[#FAF7F0] rounded-[1.5rem] group transition-all duration-300 border border-transparent hover:border-dark/30">
-                    <div class="p-2 bg-transparent group-hover:bg-white rounded-xl transition-all">
-                        <svg class="w-5 h-5 text-dark group-hover:text-[#B17457]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('product.menu') }}"
+                class="flex items-center gap-4 px-5 py-4 {{ Request::routeIs('product.menu') ? 'text-[#B17457] bg-[#B17457]/5 border-[#B17457]/10' : 'text-[#4A4947] hover:bg-[#FAF7F0] border-transparent hover:border-dark/30' }} border rounded-[1.5rem] group transition-all duration-300">
+                    <div class="p-2 {{ Request::routeIs('product.menu') ? 'bg-white shadow-sm' : 'bg-transparent group-hover:bg-white' }} rounded-xl transition-all">
+                        <svg class="w-5 h-5 {{ Request::routeIs('product.menu') ? 'text-[#B17457]' : 'text-dark' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                         </svg>
                     </div>
                     <span class="font-bold text-sm tracking-tight">Menu Produk</span>
+                </a>
+
+                <a href="{{ route('admin.register') }}"
+                class="flex items-center gap-4 px-5 py-4 {{ Request::routeIs('admin.register') ? 'text-[#B17457] bg-[#B17457]/5 border-[#B17457]/10' : 'text-[#4A4947] hover:bg-[#FAF7F0] border-transparent hover:border-dark/30' }} border rounded-[1.5rem] group transition-all duration-300">
+                    <div class="p-2 {{ Request::routeIs('admin.register') ? 'bg-white shadow-sm' : 'bg-transparent group-hover:bg-white' }} rounded-xl transition-all">
+                        <svg class="w-5 h-5 {{ Request::routeIs('admin.register') ? 'text-[#B17457]' : 'text-dark' }}" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 1.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"></path>
+                        </svg>
+                    </div>
+                    <span class="font-bold text-sm tracking-tight">Daftarkan admin baru</span>
                 </a>
             </nav>
 

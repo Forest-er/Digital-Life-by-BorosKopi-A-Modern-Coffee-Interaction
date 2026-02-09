@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<main class="flex-1 md:p-8 bg-cream min-h-screen">
+<main class="flex-1 bg-cream min-h-screen">
     <div class="flex items-center gap-4 mb-8">
         <a href="{{ route('product.menu') }}" class="w-10 h-10 rounded-xl bg-white border border-sand flex items-center justify-center hover:bg-dark hover:text-cream transition-all shadow-sm">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -17,11 +17,11 @@
     <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-            
+
             <div class="lg:col-span-4 space-y-6">
                 <div class="bg-white rounded-[2.5rem] p-8 border border-sand shadow-sm text-center">
                     <h3 class="text-sm font-black text-dark uppercase tracking-widest mb-6">Foto Produk</h3>
-                    
+
                     <div class="relative group cursor-pointer">
                         <input type="file" name="image" id="imageInput" class="hidden" accept="image/*" onchange="previewImage(event)">
                         <label for="imageInput" class="cursor-pointer">
@@ -60,10 +60,10 @@
                             <label class="text-[10px] font-black text-coffee uppercase tracking-[0.2em] ml-1">Kategori</label>
                             <div class="relative">
                                 <select name="category_id" required class="w-full px-8 py-5 rounded-2xl bg-cream/30 border border-sand focus:border-coffee focus:bg-white outline-none transition-all font-bold text-dark appearance-none">
-                                    <option value="">Pilih Kategori</option>
-                                    <option value="1">Coffee</option>
-                                    <option value="2">Non-Coffee</option>
-                                    <option value="3">Pastry</option>
+                                    <option value="" disabled selected>Pilih Kategori</option>
+                                    @foreach ($categories as $C)
+                                        <option value="{{ $C->category_id }}">{{ $C->category_name }}</option>
+                                    @endforeach
                                 </select>
                                 <div class="absolute right-6 top-6 pointer-events-none text-coffee">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -84,7 +84,7 @@
                             <label class="text-[10px] font-black text-coffee uppercase tracking-[0.2em] ml-1">Stok Awal</label>
                             <div class="flex items-center bg-cream/30 border border-sand rounded-2xl px-4">
                                 <button type="button" onclick="this.parentNode.querySelector('input').stepDown()" class="p-4 text-coffee hover:scale-125 transition-transform font-black">-</button>
-                                <input type="number" name="stock_quantity" value="0" min="0" 
+                                <input type="number" name="stock_quantity" value="0" min="0"
                                        class="w-full bg-transparent border-none text-center font-black text-dark focus:ring-0 text-lg">
                                 <button type="button" onclick="this.parentNode.querySelector('input').stepUp()" class="p-4 text-coffee hover:scale-125 transition-transform font-black">+</button>
                             </div>

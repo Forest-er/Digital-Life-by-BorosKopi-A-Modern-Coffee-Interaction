@@ -6,30 +6,17 @@
         <div>
             <h2 class="text-4xl font-black text-dark tracking-tighter">Riwayat <span class="text-coffee">Transaksi.</span></h2>
         </div>
-        
-        <div class="flex items-center gap-4 w-full md:w-auto">
-            <div class="relative flex-1 md:flex-none">
-                <input type="text" placeholder="Cari ID atau Nama..." class="w-full md:w-72 pl-12 pr-4 py-3.5 rounded-2xl bg-white border border-sand focus:outline-none focus:ring-2 focus:ring-coffee/20 shadow-sm transition-all">
-                <svg class="w-5 h-5 absolute left-4 top-4 text-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-            </div>
-            <button class="p-3.5 bg-white border border-sand text-dark rounded-2xl hover:bg-dark hover:text-cream transition-all shadow-sm group">
-                <svg class="w-6 h-6 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
-                </svg>
-            </button>
-        </div>
+
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        
+
         <div class="lg:col-span-3 space-y-6">
-            
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div class="bg-dark rounded-[2rem] p-8 text-cream relative overflow-hidden group hover:-translate-y-1 transition-all duration-300 shadow-xl">
                     <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-coffee/20 rounded-full blur-2xl group-hover:bg-coffee/40 transition-all"></div>
-                    <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-60 mb-2">Total Income</p>
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-60 mb-2">Total pendapatan minggu ini</p>
                     <h3 class="text-3xl font-black">Rp {{ number_format($orderdone->sum('total_price')) }}</h3>
                     <div class="mt-4 flex items-center gap-2 text-xs font-bold text-green-400">
                     </div>
@@ -45,7 +32,7 @@
 
                 <div class="bg-white rounded-[2rem] p-8 border border-sand shadow-sm hover:shadow-md transition-all">
                     <p class="text-[10px] font-black text-sand uppercase tracking-[0.2em] mb-2">Dibatalkan</p>
-                    <h3 class="text-3xl font-black text-dark tracking-tight">{{ count($orderdone) }}</h3>
+                    <h3 class="text-3xl font-black text-dark tracking-tight">{{ $orderFail }}</h3>
                 </div>
             </div>
 
@@ -54,7 +41,7 @@
                     <h3 class="font-black text-dark text-xl tracking-tight">Daftar Log <span class="text-coffee">Transaksi.</span></h3>
                     <span class="px-4 py-1.5 bg-dark text-cream text-[10px] font-black rounded-xl uppercase tracking-widest">Live Updates</span>
                 </div>
-                
+
                 <div class="overflow-x-auto px-4 pb-4">
                     <table class="w-full text-left border-separate border-spacing-y-4">
                         <thead class="text-[10px] font-black text-coffee uppercase tracking-[0.2em]">
@@ -105,38 +92,42 @@
         </div>
 
         <div class="space-y-8">
-            
-            <div class="bg-white rounded-[2.5rem] p-8 border border-sand shadow-sm relative overflow-hidden">
-                <div class="relative z-10">
-                    <h3 class="font-black text-dark mb-6 tracking-tight">Target <span class="text-coffee font-serif italic">Penjualan</span></h3>
-                    
-                    <div class="space-y-6">
-                        <div class="relative pt-1">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-[10px] font-black uppercase text-sand tracking-widest">Operasional</span>
-                                <span class="text-xs font-black text-dark">70%</span>
-                            </div>
-                            <div class="overflow-hidden h-2 text-xs flex rounded-full bg-cream">
-                                <div style="width:70%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-coffee rounded-full"></div>
-                            </div>
-                        </div>
-                        <div class="relative pt-1">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-[10px] font-black uppercase text-sand tracking-widest">Bahan Baku</span>
-                                <span class="text-xs font-black text-dark">25%</span>
-                            </div>
-                            <div class="overflow-hidden h-2 text-xs flex rounded-full bg-cream">
-                                <div style="width:25%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-dark rounded-full"></div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="mt-10 p-6 bg-cream/50 rounded-[2rem] border border-dashed border-sand">
-                        <h4 class="text-xl font-black text-dark tracking-tighter italic font-serif">Rp {{ number_format($target->sum('total_price') ) }}</h4>
-                    </div>
-                </div>
+            <div class="bg-white rounded-[2.5rem] p-8 border border-brand-beige shadow-sm relative overflow-hidden group hover:shadow-xl transition-all duration-500">
+    <div class="absolute -top-10 -right-10 w-32 h-32 bg-brand-primary/5 rounded-full blur-3xl group-hover:bg-brand-primary/10 transition-colors"></div>
+
+    <div class="relative z-10">
+        <div class="flex justify-between items-start mb-6">
+            <h3 class="font-black text-brand-dark tracking-tight leading-tight">
+                Sisa Target <br>
+                <span class="text-brand-primary font-serif italic text-2xl">Penjualan</span>
+            </h3>
+            <div class="bg-brand-cream p-3 rounded-2xl border border-brand-primary/10">
+                <svg class="w-6 h-6 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                </svg>
             </div>
+        </div>
 
+        <div class="relative group/amount">
+            <div class="absolute inset-0 bg-brand-primary/5 blur-xl rounded-full opacity-0 group-hover/amount:opacity-100 transition-opacity"></div>
+            <div class="relative p-6 bg-brand-cream/50 rounded-[2rem] border border-dashed border-brand-primary/30 backdrop-blur-sm">
+                <p class="text-[10px] font-black uppercase tracking-widest text-brand-dark/40 mb-1">Total sisa yang harus dicapai:</p>
+                <h4 class="text-3xl font-black text-brand-dark tracking-tighter">
+                    <span class="text-brand-primary text-xl font-serif mr-1">Rp</span>{{ number_format($target, 0, ',', '.') }}
+                </h4>
+            </div>
+        </div>
+
+        <div class="mt-6 flex items-center gap-2 text-xs text-brand-dark/50">
+            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Target diperbarui setiap re-stock</span>
+        </div>
+    </div>
+</div>
+            <a href="{{ route('export.pdf') }}" class="block">
             <div class="bg-coffee rounded-[2.5rem] p-8 text-cream shadow-2xl relative group cursor-pointer overflow-hidden">
                 <div class="absolute inset-0 bg-dark/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
                 <div class="relative z-10">
@@ -148,6 +139,7 @@
                     <button class="w-full py-4 bg-cream text-coffee rounded-2xl font-black uppercase text-[10px] tracking-widest shadow-xl active:scale-95 transition-all">Download Report</button>
                 </div>
             </div>
+            </a>
 
         </div>
     </div>

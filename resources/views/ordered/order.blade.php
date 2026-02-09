@@ -4,19 +4,12 @@
 <main class="flex-1 bg-cream min-h-screen">
     <div class="flex justify-between items-end mb-10">
         <div>
-            <h2 class="text-4xl font-black text-dark tracking-tighter">Daftar <span class="text-coffee">Pesanan.</span></h2>
+            <h2 class="text-4xl font-black text-dark tracking-tighter">Daftar Pesanan<span class="text-coffee"> Hari ini.</span></h2>
             <p class="text-dark/50 font-medium mt-1">Kelola dan pantau semua pesanan pelanggan Anda.</p>
         </div>
-        
+
         <div class="flex items-center gap-4">
-            <div class="relative group">
-                <input type="text" placeholder="Cari ID atau Nama..." 
-                       class="pl-12 pr-6 py-3 rounded-2xl border border-sand bg-white focus:outline-none focus:ring-4 focus:ring-coffee/10 focus:border-coffee w-72 transition-all duration-300 shadow-sm group-hover:shadow-md">
-                <svg class="w-5 h-5 absolute left-4 top-3.5 text-sand group-hover:text-coffee transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-            </div>
-            <button class="px-8 py-3.5 bg-dark hover:bg-coffee text-cream rounded-2xl font-bold transition-all duration-300 shadow-lg hover:shadow-coffee/20 flex items-center gap-3 active:scale-95">
+            <button onclick="window.location.href='{{ route('order.add') }}'" class="px-8 py-3.5 bg-dark hover:bg-coffee text-cream rounded-2xl font-bold transition-all duration-300 shadow-lg hover:shadow-coffee/20 flex items-center gap-3 active:scale-95">
                 <span class="text-xl">+</span>
                 Buat Pesanan
             </button>
@@ -67,22 +60,20 @@
     </div>
 
     <div class="bg-white rounded-[2rem] shadow-sm border border-dark/30 overflow-hidden">
-        <div class="flex flex-col md:flex-row items-center justify-between px-10 py-8 border-b border-coffee/20 gap-6">
-            <div class="flex bg-cream p-1.5 rounded-2xl items-center">
-                <button class="px-6 py-2.5 bg-white shadow-sm rounded-xl text-dark font-bold text-sm transition-all">Semua</button>
-                <button class="px-6 py-2.5 text-dark/40 hover:text-dark font-bold text-sm transition-all">Aktif</button>
-                <button class="px-6 py-2.5 text-dark/40 hover:text-dark font-bold text-sm transition-all">Selesai</button>
-            </div>
-            
-            <div class="flex items-center gap-3">
-                <button class="p-3 border border-sand rounded-xl hover:bg-cream transition-colors">
-                    <svg class="w-5 h-5 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
-                </button>
-                <button class="flex items-center gap-2 px-5 py-3 border border-sand rounded-xl hover:bg-cream transition-colors font-bold text-sm text-dark">
-                    Urutkan Berdasarkan
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-            </div>
+        <div class="flex bg-cream p-1.5 rounded-2xl items-center">
+            @php $currentStatus = request('status', 'all'); @endphp
+            <a href="{{ route('order', ['status' => 'all']) }}"
+            class="px-6 py-2.5 {{ $currentStatus == 'all' ? 'bg-white shadow-sm rounded-xl text-dark' : 'text-dark/40 hover:text-dark' }} font-bold text-sm transition-all text-center">
+            Semua
+            </a>
+            <a href="{{ route('order', ['status' => 'Proses']) }}"
+            class="px-6 py-2.5 {{ $currentStatus == 'Proses' ? 'bg-white shadow-sm rounded-xl text-dark' : 'text-dark/40 hover:text-dark' }} font-bold text-sm transition-all text-center">
+            Aktif
+            </a>
+            <a href="{{ route('order', ['status' => 'Selesai']) }}"
+            class="px-6 py-2.5 {{ $currentStatus == 'Selesai' ? 'bg-white shadow-sm rounded-xl text-dark' : 'text-dark/40 hover:text-dark' }} font-bold text-sm transition-all text-center">
+            Selesai
+            </a>
         </div>
 
         <div class="overflow-x-auto">
@@ -102,7 +93,7 @@
                     <tr class="hover:bg-cream/30 transition-colors group">
                         <td class="px-10 py-6">
                             <span class="font-black text-dark group-hover:text-coffee transition-colors">#{{ $O->order_id }}</span>
-                            <p class="text-[10px] text-sand font-bold mt-0.5">1 Ags, 2024</p>
+                            <p class="text-[10px] text-coffee font-bold mt-0.5">{{ $O->created_at->format('d/y/m') }}</p>
                         </td>
                         <td class="px-6 py-6">
                             <div class="flex items-center gap-3">
@@ -138,11 +129,25 @@
                             </div>
                         </td>
                         <td class="px-10 py-6 text-right">
-                            <a href="{{ route('order.detail', $O->order_id) }}" 
+                            @if ($O->status == 'Dibatalkan')
+                            <form action="{{ route('order.destroy', $O->order_id) }}" method="POST"
+                                  onsubmit="return confirm('Apakah Anda yakin ingin menghapus pesanan ini?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                class="inline-flex text-white items-center gap-2 bg-red-500 hover:bg-coffee hover:text-white px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300 shadow-sm border border-sand">
+                                    hapus
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </button>
+                            </form>
+                            @else
+
+                            <a href="{{ route('order.detail', $O->order_id) }}"
                                class="inline-flex items-center gap-2 bg-cream hover:bg-coffee hover:text-white px-5 py-2.5 rounded-xl text-coffee text-xs font-black uppercase tracking-widest transition-all duration-300 shadow-sm border border-sand">
                                 Detail
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
+                            @endif
                         </td>
                     </tr>
                     @empty

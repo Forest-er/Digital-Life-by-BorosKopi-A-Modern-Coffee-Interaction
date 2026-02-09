@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\categories;
 use App\Models\product;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class productController extends Controller
 {
@@ -31,7 +33,8 @@ class productController extends Controller
      */
     public function create()
     {
-        
+        $categories = categories::all();
+        return view('product.insertMenu', compact('categories'));
     }
 
     /**
@@ -110,8 +113,32 @@ class productController extends Controller
      */
     public function destroy(string $id)
     {
+
         $product = product::where('product_id', $id)->firstOrFail();
+        $imagePath = public_path('storage/' . $product->image);
+        if (File::exists($imagePath)) {
+            File::delete($imagePath);
+        }
         $product->delete();
-        return redirect()->back()->with('success', 'Product deleted successfully.');
+
+        return redirect()->back()->with('success', 'Product and image deleted successfully.');
+    }
+    public function kategori(){
+        $categories = categories::all();
+        return view('product.addCategories', compact('categories'));
+    }
+    public function kategoriInsert(Request $request){
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,category_name',
+        ]);
+        $category = new categories();
+        $category->category_name = $request->input('name');
+        $category->save();
+        return view('product.addCategories');
+    }
+    public function kategoriDelete(string $id){
+        $category = categories::where('category_id', $id)->firstOrFail();
+        $category->delete();
+        return redirect()->back()->with('success', 'Category deleted successfully.');
     }
 }

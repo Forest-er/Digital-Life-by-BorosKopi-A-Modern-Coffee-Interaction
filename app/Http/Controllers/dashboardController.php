@@ -1,10 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use App\Models\orders;
 use App\Models\order_items;
+use App\Models\product;
+
+use function Symfony\Component\Clock\now;
 
 class dashboardController extends Controller
 {
@@ -13,24 +17,49 @@ class dashboardController extends Controller
      */
     public function index()
     {
-        $salesData = \App\Models\orders::selectRaw('DAYNAME(created_at) as day, SUM(total_price) as total')
-        ->where('created_at', '>=', now()->subDays(7))
-        ->groupBy('day')
-        ->get()
-        ->pluck('total', 'day'); // Hasil: ["Monday" => 500000, "Tuesday" => 300000, ...]
+        $lastSevenDays = \Carbon\Carbon::now()->subDays(7)->startOfDay();
+        $menus = order_items::select('product_id', DB::raw('SUM(quantity) as total_sold'))
+            ->with('product')
+            ->groupBy('product_id')
+            ->orderByDesc('total_sold')
+            ->take(3)
+            ->get();
 
-        // Menyesuaikan urutan hari agar sesuai dengan grafik (Sun-Sat)
-        $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        $data = [];
-        foreach ($days as $day) {
-            $data[] = $salesData->get($day, 0); // Jika hari kosong, isi 0
+        $startDate = \Carbon\Carbon::today()->subDays(6);
+
+        $salesData = orders::selectRaw('DATE(created_at) as date, SUM(total_price) as total')
+            ->where('created_at', '>=', $startDate)
+            ->groupBy('date')
+            ->get()
+            ->pluck('total', 'date');
+        $labels = [];
+        $dataValues = [];
+
+        for ($i = 6; $i >= 0; $i--) {
+            $date = \Carbon\Carbon::today()->subDays($i);
+            $dateString = $date->format('Y-m-d');
+            $labels[] = $date->format('l');
+            $dataValues[] = $salesData->get($dateString, 0);
         }
-        $orderCount = orders::get()->count();
-        $Orders = orders::all();
-        $orderTotalPrice = orders::where('status', 'Selesai');
-        $orderItemsSell = order_items::get()->count();
-        $newOrders = orders::whereNot('status', 'Selesai')->get();
-        return view('dashboard', compact('orderCount', 'Orders', 'orderTotalPrice', 'orderItemsSell', 'newOrders', 'data'));
+        $orderCount = orders::where('created_at', '>=', today())->count();
+        $orderItemsSell = order_items::where('created_at', '>=', today())->sum('quantity');
+        $orderTotalPrice = orders::where('status', 'Selesai')
+            ->where('created_at', '>=', today());
+        $Orders = orders::where('created_at', '>=', today())->latest()->get();
+        $newOrders = orders::where('status', '!=', 'Selesai')->get();
+        $lowerStockProducts = product::where('stock_quantity', '<=', 5)->get();
+
+        return view('dashboard', compact(
+            'orderCount',
+            'Orders',
+            'orderTotalPrice',
+            'orderItemsSell',
+            'newOrders',
+            'menus',
+            'labels',
+            'dataValues',
+            'lowerStockProducts'
+        ));
     }
 
     /**

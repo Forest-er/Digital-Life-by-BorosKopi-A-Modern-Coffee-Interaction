@@ -76,6 +76,19 @@ class customerController extends Controller
         $order = orders::where('order_id', $request->input('order_id'))->first();
         $orderItems = order_items::where('order_id', $request->input('order_id'))->get();
         $order->total_price = $orderItems->sum('price') + 10000;
+        $stokKurang = false;
+        foreach ($orderItems as $item) {
+            $product = product::find($item->product_id);
+            if ($product->stock_quantity < $item->quantity) {
+                $stokKurang = true;
+                break;
+            }
+            $product->stock_quantity -= $item->quantity;
+            $product->save();
+        }
+        if ($stokKurang) {
+            return redirect()->back()->with('error', 'Stok produk tidak mencukupi.');
+        }
         $order->save();
         session()->forget('current_order_id');
         return redirect()->route('order.whatsapp', ['order_id' => $order->order_id])->with('success', 'Pesanan berhasil diselesaikan.');
@@ -85,7 +98,7 @@ class customerController extends Controller
     {
         // 1. Ambil data order beserta items dan produknya
         $order = orders::with('orderItems')->findOrFail($order_id);
-        
+
         // 2. Format Header Pesan
         $message = "*HALO BOROSKOPI!* ☕\n";
         $message .= "Saya ingin melakukan konfirmasi pesanan:\n\n";
@@ -93,18 +106,18 @@ class customerController extends Controller
         $message .= "Nama: " . $order->customer_name . "\n";
         $message .= "No. WA: " . $order->number_phone . "\n";
         $message .= "Alamat: " . $order->address . "\n\n";
-        
+
         $message .= "*--- DETAIL PESANAN ---*\n";
-        
+
         $subtotal = 0;
         foreach ($order->orderItems as $item) {
             $itemTotal = $item->price; // Karena sudah dikali qty di storeStep2
             $message .= "- " . $item->product->product_name . " (" . $item->quantity . "x) : Rp " . number_format($itemTotal, 0, ',', '.') . "\n";
             $subtotal += $itemTotal;
         }
-        
+
         $total = $subtotal + 10000; // Plus ongkir
-        
+
         $message .= "\n*Subtotal:* Rp " . number_format($subtotal, 0, ',', '.') . "\n";
         $message .= "*Ongkir:* Rp 10.000\n";
         $message .= "*TOTAL TAGIHAN: Rp " . number_format($total, 0, ',', '.') . "*\n\n";
@@ -146,8 +159,22 @@ class customerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
+public function destroy()
+{
+    // Ambil ID dari session
+    $orderId = session('current_order_id');
+
+    if ($orderId) {
+        $order = \App\Models\orders::where('order_id', $orderId)->first();
+
+        if ($order) {
+            $order->delete();
+        }
+
+        // Hapus session setelah data di DB terhapus
+        session()->forget('current_order_id');
     }
+
+    return redirect()->route('order.add')->with('success', 'Pesanan berhasil dibatalkan.');
+}
 }

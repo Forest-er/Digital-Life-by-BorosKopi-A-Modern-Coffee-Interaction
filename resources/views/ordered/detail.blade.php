@@ -24,7 +24,7 @@
                  <div class="flex justify-between items-center mb-6">
                      <h3 class="text-xl font-bold text-dark">Detail Akun</h3>
                  </div>
-                 
+
                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                      <div>
                          <label class="block text-sm font-medium text-gray-700 mb-2">Email ID</label>
@@ -45,7 +45,7 @@
                  <div class="flex justify-between items-center mb-6">
                      <h3 class="text-xl font-bold text-dark">Alamat Pengiriman</h3>
                  </div>
-                 
+
                  <div class="px-4 py-3 bg-gray-50 rounded-lg border border-sand">
                      <p class="text-dark">{{ $Orders->address }}</p>
                  </div>
@@ -55,13 +55,13 @@
                  <div class="flex justify-between items-center mb-6">
                      <h3 class="text-xl font-bold text-dark">Detail Pembayaran</h3>
                  </div>
-                 
+
                  <div class="space-y-4">
                      <!-- Payment Method -->
                      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                          <div class="px-6 py-4 bg-white rounded-xl border border-gray-200 shadow-sm">
                              <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Status Pesanan</h3>
-                             
+
                              @php
                                  // Logika warna status otomatis
                                  $statusColor = match($Orders->status) {
@@ -77,7 +77,7 @@
                          </div>
                          <div class="px-6 py-4 bg-white rounded-xl border border-coffee shadow-sm">
                              <h3 class="text-sm font-semibold text-dark uppercase tracking-wider mb-3">Metode Pembayaran</h3>
-                             
+
                              <label class="flex items-center gap-3 px-4 rounded-lg cursor-pointer hover:bg-white transition">
                                  <div class="inline-flex px-4 py-2 rounded-full border border-coffee font-bold text-sm capitalize">
                                      <span class="mr-2">●</span> {{ $Orders->status }}
@@ -106,12 +106,36 @@
                 <form action="{{ route('order.update', $Orders->order_id) }}" method="POST" class="flex flex-col gap-4">
                      @csrf
                      <div class="flex gap-4">
-                         <select name="status" class="flex-1 px-4 py-3 rounded-xl border-2 border-sand focus:border-coffee outline-none bg-white">
-                             <option value="menunggu" {{ $Orders->status == 'menunggu' ? 'selected' : '' }}>Menunggu</option>
-                             <option value="proses" {{ $Orders->status == 'proses' ? 'selected' : '' }}>Proses</option>
-                             <option value="selesai" {{ $Orders->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                             <option value="dibatalkan" {{ $Orders->status == 'dibatalkan' ? 'selected' : '' }}>Batalkan</option>
-                         </select>
+                         <div class="relative flex-1 group">
+                            <label class="absolute -top-2 left-3 px-2 bg-white text-[10px] font-black uppercase tracking-widest text-brand-primary z-10">
+                                Status Pesanan
+                            </label>
+
+                            <select name="status"
+                                class="w-full px-5 py-3.5 rounded-2xl border-2 border-brand-beige bg-white text-brand-dark font-bold text-sm appearance-none focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10 outline-none transition-all cursor-pointer shadow-sm hover:border-brand-primary/50">
+
+                                <option value="menunggu" {{ $Orders->status == 'menunggu' ? 'selected' : '' }}>
+                                    ⏳ Menunggu Konfirmasi
+                                </option>
+
+                                <option value="proses" {{ $Orders->status == 'proses' ? 'selected' : '' }}>
+                                    ☕ Sedang Disiapkan
+                                </option>
+
+                                <option value="diantar" {{ $Orders->status == 'diantar' ? 'selected' : '' }}>
+                                    🛵 Dalam Pengantaran
+                                </option>
+
+                                <option value="selesai" {{ $Orders->status == 'selesai' ? 'selected' : '' }}>
+                                    ✅ Pesanan Selesai
+                                </option>
+
+                                <option value="dibatalkan" {{ $Orders->status == 'dibatalkan' ? 'selected' : '' }} class="text-red-500">
+                                    ❌ Batalkan Pesanan
+                                </option>
+                            </select>
+
+                        </div>
                          <button type="submit" class="flex-1 items-center px-6 py-3.5 bg-white border-2 border-coffee text-coffee rounded-xl font-semibold hover:bg-coffee/5 transition">
                              Update Pesanan
                          </button>
@@ -125,7 +149,7 @@
                 <div class="p-8 bg-cream/30 border-b border-dashed border-sand relative">
                     <div class="absolute -left-3 -bottom-3 w-6 h-6 bg-cream rounded-full border border-sand"></div>
                     <div class="absolute -right-3 -bottom-3 w-6 h-6 bg-cream rounded-full border border-sand"></div>
-                    
+
                     <h3 class="text-2xl font-black text-dark tracking-tighter">Ringkasan <span class="text-coffee font-serif italic">Bill.</span></h3>
                 </div>
 
@@ -134,7 +158,7 @@
                     <div class="flex gap-4 group">
                         <div class="relative">
                             <div class="w-16 h-16 bg-sand/30 rounded-2xl overflow-hidden group-hover:rotate-3 transition-transform duration-300">
-                                <img src="https://images.unsplash.com/photo-1541167760496-162955ed8a9f?q=80&w=100&auto=format&fit=crop" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                                <img src="{{ asset('storage/' . $OP->product->image) }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
                             </div>
                             <span class="absolute -top-2 -right-2 w-6 h-6 bg-dark text-cream text-[10px] font-black rounded-lg flex items-center justify-center shadow-lg">
                                 {{ $OP->quantity }}x

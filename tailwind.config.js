@@ -12,13 +12,18 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Plus Jakarta Sans', 'sans-serif'],
+                serif: ['Playfair Display', 'serif'],
             },
             colors: {
                 cream: '#F5F1E8',
                 sand: '#E5E0D5',
                 coffee: '#B8826D',
                 dark: '#3D3D3D',
+                'brand-cream': '#FAF7F0',
+                'brand-beige': '#D8D2C2',
+                'brand-primary': '#B17457',
+                'brand-dark': '#4A4947',
             }
         },
     },

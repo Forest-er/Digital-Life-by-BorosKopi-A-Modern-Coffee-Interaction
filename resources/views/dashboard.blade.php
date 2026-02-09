@@ -2,27 +2,11 @@
 @section('content')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <main class=" bg-cream min-h-screen w-full font-sans text-dark">
-    
+
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
             <h2 class="text-3xl font-extrabold tracking-tight">Welcome back, {{ Auth::user()->name }} 👋</h2>
             <p class="text-coffee font-medium">Berikut adalah ringkasan kedai Anda hari ini.</p>
-        </div>
-        
-        <div class="flex items-center gap-3">
-            <div class="relative group">
-                <input type="text" placeholder="Search data..." 
-                    class="pl-11 pr-4 py-2.5 rounded-2xl bg-white border-none shadow-sm focus:ring-2 focus:ring-coffee w-64 transition-all duration-300 group-hover:shadow-md">
-                <svg class="w-5 h-5 absolute left-4 top-3 text-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-            </div>
-            <button class="p-2.5 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all relative">
-                <div class="absolute top-2 right-2.5 w-2 h-2 bg-coffee rounded-full border-2 border-white"></div>
-                <svg class="w-6 h-6 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                </svg>
-            </button>
         </div>
     </div>
 
@@ -65,48 +49,47 @@
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-        
+
         <div class="lg:col-span-8 space-y-6">
-            
+
             <div class="bg-white rounded-[2.5rem] p-8 border border-[#D8D2C2] shadow-sm">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-black text-[#4A4947]">Aktivitas Penjualan</h3>
                     <span class="px-4 py-1 bg-[#FAF7F0] text-[#B17457] text-xs font-bold rounded-full">Minggu Ini</span>
                 </div>
-                
-                <div class="h-[300px]">
+
+                <div class="w-full max-w-4xl mx-auto p-6 bg-white rounded-3xl shadow-sm border border-sand/20">
+                    <h3 class="text-lg font-black text-dark mb-4 uppercase tracking-wider">Statistik Penjualan</h3>
                     <canvas id="salesChart"></canvas>
                 </div>
             </div>
 
             <script>
                 const ctx = document.getElementById('salesChart').getContext('2d');
-                const salesChart = new Chart(ctx, {
-                    type: 'bar',
+
+                new Chart(ctx, {
+                    type: 'line', // Bisa diganti 'bar', 'pie', dll.
                     data: {
-                        labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                        labels: @json($labels), // Nama-nama hari
                         datasets: [{
-                            label: 'Penjualan',
-                            data: @json($data), // Mengambil data dari Controller
-                            backgroundColor: '#E5E1DA', // Warna krem seperti di gambar kamu
-                            hoverBackgroundColor: '#B17457', // Warna cokelat saat dihover
-                            borderRadius: 20, // Membuat ujung bar melengkung (rounded)
-                            borderSkipped: false,
+                            label: 'Total Penjualan (Rp)',
+                            data: @json($dataValues), // Angka-angka total
+                            borderColor: '#d9d9d9', // Warna cokelat kopi
+                            backgroundColor: 'rgba(111, 78, 55, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4, // Membuat garis jadi melengkung (smooth)
+                            fill: true
                         }]
                     },
                     options: {
                         responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false } // Sembunyikan label dataset
-                        },
                         scales: {
-                            y: { display: false, grid: { display: false } },
-                            x: {
-                                grid: { display: false },
+                            y: {
+                                beginAtZero: true,
                                 ticks: {
-                                    color: '#4A4947',
-                                    font: { weight: 'bold' }
+                                    callback: function(value) {
+                                        return 'Rp ' + value.toLocaleString(); // Format rupiah di sumbu Y
+                                    }
                                 }
                             }
                         }
@@ -117,18 +100,21 @@
             <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-sand/30">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-bold">Pesanan Terbaru</h3>
-                    <button class="text-coffee font-bold text-sm hover:underline">View All</button>
+                    <button onclick="window.location.href='{{ route('transaction') }}'" class="text-coffee font-bold text-sm hover:underline">View All</button>
                 </div>
-                <div class="space-y-4">
-                    @foreach ($Orders as $O)            
+
+                {{-- Tambahkan pembungkus ini dengan overflow-y-auto dan max-h --}}
+                <div class="space-y-4 overflow-y-auto max-h-[500px] pr-2 custom-scrollbar">
+                    @foreach ($Orders as $O)
                     <div class="flex items-center justify-between p-5 hover:bg-cream rounded-[2rem] transition-all border border-transparent hover:border-sand/50 group">
                         <div class="flex items-center gap-5">
                             <div class="w-14 h-14 bg-dark rounded-2xl flex items-center justify-center text-cream font-bold shadow-lg group-hover:scale-110 transition-transform">
-                                #{{ $O->order_id }}
+                                #{{ $loop->iteration }}
                             </div>
                             <div>
                                 <h4 class="font-bold text-lg">{{ $O->customer_name }}</h4>
-                                <p class="text-xs text-coffee font-medium uppercase tracking-widest">{{ now()->format('d M, H:i') }}</p>
+                                {{-- Pastikan format waktu diambil dari data order, bukan now() --}}
+                                <p class="text-xs text-coffee font-medium uppercase tracking-widest">{{ $O->created_at->format('d M, H:i') }}</p>
                             </div>
                         </div>
                         <div class="text-right">
@@ -141,10 +127,25 @@
                     @endforeach
                 </div>
             </div>
+            <style>
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 6px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: #D8D2C2;
+                    border-radius: 10px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: #B17457;
+                }
+            </style>
         </div>
 
         <div class="lg:col-span-4 space-y-6">
-            
+
             <div class="bg-coffee rounded-[2.5rem] p-8 text-white shadow-lg shadow-coffee/20">
                 <h3 class="text-xl font-bold mb-6 italic">Quick Actions</h3>
                 <div class="grid grid-cols-2 gap-4">
@@ -159,25 +160,34 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-sand/30">
-                <h3 class="text-xl font-bold mb-6">Menu Populer</h3>
-                <div class="space-y-6">
-                    @php 
-                        $populer = [
-                            ['name' => 'Cappuccino', 'sold' => 128, 'color' => 'bg-coffee', 'percent' => '85%'],
-                            ['name' => 'Latte', 'sold' => 95, 'color' => 'bg-sand', 'percent' => '65%'],
-                            ['name' => 'Americano', 'sold' => 87, 'color' => 'bg-dark', 'percent' => '55%']
-                        ];
-                    @endphp
-                    @foreach($populer as $p)
-                    <div class="space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-sm">{{ $p['name'] }}</span>
-                            <span class="text-xs font-bold text-coffee">{{ $p['sold'] }} sold</span>
-                        </div>
-                        <div class="w-full h-2 bg-cream rounded-full overflow-hidden">
-                            <div class="{{ $p['color'] }} h-full rounded-full" style="width: {{ $p['percent'] }}"></div>
-                        </div>
+            <div class="bg-white rounded-[2.5rem] p-8 border border-[#D8D2C2] shadow-sm">
+            <h3 class="text-xl font-black text-[#4A4947] mb-6">Menu Terlaris</h3>
+
+            <div class="space-y-4">
+                @foreach($menus as $index => $item)
+                <div class="flex items-center gap-4 p-4 rounded-2xl bg-[#FAF7F0] border border-[#D8D2C2]/50 hover:border-[#B17457] transition-all group">
+                    {{-- Rank Badge --}}
+                    <div class="w-8 h-8 rounded-lg bg-[#B17457] flex items-center justify-center text-white font-black text-xs">
+                        {{ $index + 1 }}
+                    </div>
+
+                    {{-- Product Image --}}
+                    <div class="w-12 h-12 rounded-xl overflow-hidden bg-white">
+                        <img src="{{ asset('storage/' . $item->product->image) }}" class="w-full h-full object-cover">
+                    </div>
+
+                    {{-- Product Info --}}
+                    <div class="flex-1">
+                        <h4 class="font-bold text-[#4A4947] text-sm group-hover:text-[#B17457]">{{ $item->product->product_name }}</h4>
+                        <p class="text-[10px] text-[#B17457] font-black uppercase tracking-widest">
+                            Terjual {{ $item->total_sold }} porsi
+                        </p>
+                    </div>
+
+                        {{-- Icon --}}
+                        <span class="text-lg">
+                            @if($index == 0) 🏆 @elseif($index == 1) 🥈 @else 🥉 @endif
+                        </span>
                     </div>
                     @endforeach
                 </div>
@@ -187,11 +197,11 @@
                 <div class="relative z-10 flex items-center gap-4">
                     <div class="bg-yellow-500 w-2 h-12 rounded-full animate-pulse"></div>
                     <div>
-                        <h4 class="font-bold">Stok Biji Kopi Rendah!</h4>
-                        <p class="text-[10px] text-gray-400">Tersisa < 2kg di gudang utama.</p>
+                        <h4 class="font-bold">Stok {{ $lowerStockProducts->first()->product_name ?? 'Produk' }} Produk Rendah!</h4>
+                        <p class="text-[10px] text-gray-400">Tersisa {{ $lowerStockProducts->first()->stock_quantity }} stok lagi.</p>
                     </div>
                 </div>
-                <button class="mt-4 w-full py-2 bg-white/5 hover:bg-white/10 rounded-xl text-xs font-bold transition-colors">Re-order Sekarang</button>
+                <button onclick="window.location.href='{{ route('product.edit', $lowerStockProducts->first()->product_id) }}'" class="mt-4 w-full py-2 bg-white/5 hover:bg-white/10 rounded-xl text-xs font-bold transition-colors">Perbarui Stok sekarang</button>
             </div>
         </div>
     </div>
