@@ -43,8 +43,7 @@
 
         <div class="lg:w-1/2 mt-8 lg:mt-0 relative hero-image-container">
             <div class="hero-image-glow"></div>
-            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=1000"
-                alt="Coffee Cup"
+            <img src="{{ asset('storage/images/owner1.jpeg') }}" alt="Coffee Cup"
                 class="hero-image w-full max-w-md mx-auto rounded-full aspect-square object-cover border-[15px] border-white">
         </div>
     </section>
@@ -107,7 +106,7 @@
         </div>
     </section>
 
- 
+
     <!-- About Section -->
     <section id="about">
         <div class="about-header">
@@ -142,7 +141,62 @@
             <h1 class="fade-in">LOGO</h1>
             <img src="{{ asset('storage/images/logo.png') }}" alt="Logo BorosKopi" class="fade-in">
         </div>
+
+        <div class="isolate bg-[#FAF7F0] px-6 py-24 sm:py-32 lg:px-8">
+            <div aria-hidden="true"
+                class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
+                <div style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"
+                    class="relative left-1/2 -z-10 aspect-1155/678 w-144.5 max-w-none -translate-x-1/2 rotate-30 bg-gradient-to-tr from-[#D8D2C2] to-[#B17457] opacity-40 sm:left-[calc(50%-40rem)] sm:w-288.75">
+                </div>
+            </div>
+            <div class="mx-auto max-w-2xl text-center">
+                <h2 class="text-4xl lg:text-5xl font-serif mt-3 tracking-tight text-balance text-[#4A4947] sm:text-5xl">
+                    Contact Us</h2>
+                <p class="mt-2 text-lg/8 text-[#4A4947]/70"> Hubungi kami untuk informasi lebih lanjut.
+                </p>
+            </div>
+            <form action="https://api.web3forms.com/submit" method="POST" class="mx-auto mt-16 max-w-xl sm:mt-20">
+                <input type="hidden" name="access_key" value="99c45d23-f116-4687-8ea6-ae389ce3dc26">
+                <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+                    <div>
+                        <label for="first-name" class="block text-sm/6 font-semibold text-[#4A4947]">Full Name</label>
+                        <div class="mt-2.5">
+                            <input id="first-name" type="text" name="first-name" autocomplete="given-name"
+                                class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-[#4A4947] outline-1 -outline-offset-1 outline-[#D8D2C2] placeholder:text-[#4A4947]/40 focus:outline-2 focus:-outline-offset-2 focus:outline-[#B17457]"
+                                required>
+                        </div>
+                        <div class="sm:col-span-2">
+
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="email" class="block text-sm/6 font-semibold text-[#4A4947]">Email</label>
+                            <div class="mt-2.5">
+                                <input id="email" type="email" name="email" autocomplete="email"
+                                    class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-[#4A4947] outline-1 -outline-offset-1 outline-[#D8D2C2] placeholder:text-[#4A4947]/40 focus:outline-2 focus:-outline-offset-2 focus:outline-[#B17457]"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="sm:col-span-2">
+
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label for="message" class="block text-sm/6 font-semibold text-[#4A4947]">Message</label>
+                        <div class="mt-2.5">
+                            <textarea id="message" name="message" rows="4"
+                                class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-[#4A4947] outline-1 -outline-offset-1 outline-[#D8D2C2] placeholder:text-[#4A4947]/40 focus:outline-2 focus:-outline-offset-2 focus:outline-[#B17457]"
+                                required></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <button type="submit"
+                        class="block w-full rounded-md bg-[#B17457] px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-[#4A4947] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B17457]">Let's
+                        talk</button>
+                </div>
+            </form>
+        </div>
+
     </section>
 
-    
- @endsection
+@endsection
