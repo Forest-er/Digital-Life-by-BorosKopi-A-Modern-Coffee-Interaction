@@ -68,12 +68,6 @@
         </div>
         <div class="lg:col-span-2">
             <div class="bg-white rounded-2xl shadow-sm border border-brand-beige/50 overflow-hidden">
-                <div class="p-6 border-b border-brand-beige/30 flex justify-between items-center">
-                    <h3 class="font-bold text-brand-dark">Daftar Kategori Saat Ini</h3>
-                    <span class="bg-brand-cream text-brand-primary text-xs font-bold px-3 py-1 rounded-full border border-brand-primary/20">
-                        Total: {{ $categories->count() }} Kategori
-                    </span>
-                </div>
 
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
