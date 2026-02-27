@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\category;
+use App\Models\categories;
 
 class categoryController extends Controller
 {
@@ -64,7 +64,7 @@ class categoryController extends Controller
     }
 
     public function menucat() {
-        $categories = category::all();
+        $categories = categories::all();
         return view('product.menu', compact('categories'));
     }
 }

@@ -92,7 +92,7 @@ class orderController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:menunggu,proses,selesai,dibatalkan'
+            'status' => 'required|in:menunggu,proses,diantar,selesai,dibatalkan'
         ]);
         $order = Orders::where('order_id', $id)->firstOrFail();
         $order->update([
@@ -147,5 +147,54 @@ class orderController extends Controller
 
         $pdf = Pdf::loadView('ordered.report', $data);
         return $pdf->download('laporan-boroskopi.pdf');
+    }
+
+    public function report(string $id)
+    {
+        $Orders = orders::with('orderItems.product')->where('order_id', $id)->firstOrFail();
+        $OrdersProduct = order_items::with('product')->where('order_id', $id)->get();
+        $subtotal = 0;
+        $ongkir = 10000;
+
+        // Header Pesanan
+        $message = "*--- ☕ NOTIFIKASI BOROSKOPI ---*\n\n";
+        $message .= "Halo, *{$Orders->customer_name}*!\n";
+        $message .= "Berikut adalah rincian pesanan terbaru kamu:\n\n";
+
+        $message .= "*📍 DATA PENGIRIMAN*\n";
+        $message .= "Nama: {$Orders->customer_name}\n";
+        $message .= "No. WA: {$Orders->number_phone}\n";
+        $message .= "Alamat: {$Orders->address}\n\n";
+
+        $message .= "*🛒 DETAIL PESANAN*\n";
+
+        foreach ($Orders->orderItems as $item) {
+            $itemTotal = $item->price * $item->quantity;
+            $subtotal += $itemTotal;
+
+            $message .= "• *{$item->product->product_name}*\n"; // Sesuaikan kolom name produk
+            $message .= "  {$item->quantity}x @ Rp " . number_format($item->price, 0, ',', '.') . "\n";
+        }
+
+        $total = $subtotal + $ongkir;
+
+        $message .= "\n*--- 💳 RINGKASAN PEMBAYARAN ---*\n";
+        $message .= "Subtotal: Rp " . number_format($subtotal, 0, ',', '.') . "\n";
+        $message .= "Ongkir: Rp " . number_format($ongkir, 0, ',', '.') . "\n";
+        $message .= "*TOTAL TAGIHAN: Rp " . number_format($total, 0, ',', '.') . "*\n\n";
+
+        $message .= "Status Saat Ini: *{$Orders->status}*\n\n";
+        $message .= "Terima kasih telah jajan di Boroskopi! Pesananmu akan segera kami proses. 🙏✨";
+        $whatsappUrl = "https://wa.me/" . $this->formatPhoneNumber($Orders->number_phone) . "?text=" . urlencode($message);
+
+        return redirect()->away($whatsappUrl);
+    }
+
+    private function formatPhoneNumber($number) {
+        $number = preg_replace('/[^0-9]/', '', $number);
+        if (substr($number, 0, 1) == '0') {
+            $number = '62' . substr($number, 1);
+        }
+        return $number;
     }
 }

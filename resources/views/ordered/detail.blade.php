@@ -75,15 +75,6 @@
                                  <span class="mr-2">●</span> {{ $Orders->status }}
                              </div>
                          </div>
-                         <div class="px-6 py-4 bg-white rounded-xl border border-coffee shadow-sm">
-                             <h3 class="text-sm font-semibold text-dark uppercase tracking-wider mb-3">Metode Pembayaran</h3>
-
-                             <label class="flex items-center gap-3 px-4 rounded-lg cursor-pointer hover:bg-white transition">
-                                 <div class="inline-flex px-4 py-2 rounded-full border border-coffee font-bold text-sm capitalize">
-                                     <span class="mr-2">●</span> {{ $Orders->status }}
-                                 </div>
-                             </label>
-                         </div>
                      </div>
                      <div class="grid grid-cols-3 gap-4">
                          <div>
@@ -141,6 +132,31 @@
                          </button>
                      </div>
                  </form>
+                 <div class="mt-6">
+                    <a href="{{ route('order.report', ['id' => $Orders->order_id]) }}"
+                    class="group relative w-full flex items-center justify-center gap-3 bg-brand-dark hover:bg-brand-primary text-brand-cream py-4 px-6 rounded-2xl font-black text-sm uppercase tracking-widest transition-all duration-500 shadow-xl hover:shadow-brand-primary/20 overflow-hidden">
+
+                        <div class="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+
+                        <svg class="w-5 h-5 text-brand-primary group-hover:text-brand-cream transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0"></path>
+                        </svg>
+
+                        <span class="relative z-10">Laporkan Pembaruan Status</span>
+
+                        <svg class="w-4 h-4 transform group-hover:translate-x-1 opacity-0 group-hover:opacity-100 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </a>
+                </div>
+
+                <style>
+                    @keyframes shimmer {
+                        100% {
+                            transform: skewX(-12deg) translateX(250%);
+                        }
+                    }
+                </style>
              </div>
          </div>
 
@@ -199,6 +215,7 @@
                     $statusConfig = match($Orders->status) {
                         'Menunggu' => ['bg' => 'bg-amber-100', 'text' => 'text-amber-700', 'label' => 'Unpaid Bill'],
                         'Proses' => ['bg' => 'bg-blue-100', 'text' => 'text-blue-700', 'label' => 'In Progress'],
+                        'Diantar' => ['bg' => 'bg-purple-100', 'text' => 'text-purple-700', 'label' => 'On Delivery'],
                         'Selesai' => ['bg' => 'bg-green-100', 'text' => 'text-green-700', 'label' => 'Successfully Paid'],
                         default => ['bg' => 'bg-red-100', 'text' => 'text-red-700', 'label' => 'Canceled'],
                     };

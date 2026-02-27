@@ -14,7 +14,7 @@
                 <p class="text-[10px] md:text-xs font-bold text-coffee uppercase tracking-widest">ID Produk: #{{ $product->product_id }}</p>
             </div>
         </div>
-        
+
         <div class="hidden md:block">
             <span class="px-4 py-2 bg-green-100 text-green-700 rounded-full text-[10px] font-black uppercase tracking-tighter shadow-sm border border-green-200">
                 Terakhir Update: {{ $product->updated_at->diffForHumans() }}
@@ -25,13 +25,13 @@
     <form action="{{ route('product.update', $product->product_id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
+
             <div class="lg:col-span-4 space-y-6">
                 <div class="bg-white rounded-[2.5rem] p-8 border border-sand shadow-sm text-center">
                     <h3 class="text-sm font-black text-dark uppercase tracking-widest mb-6">Foto Produk Sekarang</h3>
-                    
+
                     <div class="relative group cursor-pointer">
                         <input type="file" name="image" id="imageInput" class="hidden" accept="image/*" onchange="previewImage(event)">
                         <label for="imageInput" class="cursor-pointer">
@@ -75,9 +75,12 @@
                         <div class="space-y-2">
                             <label class="text-[10px] font-black text-coffee uppercase tracking-[0.2em] ml-1">Kategori</label>
                             <select name="category_id" required class="w-full px-8 py-5 rounded-2xl bg-cream/30 border border-sand focus:border-coffee focus:bg-white outline-none transition-all font-bold text-dark appearance-none">
-                                <option value="1" {{ $product->category_id == 1 ? 'selected' : '' }}>Coffee</option>
-                                <option value="2" {{ $product->category_id == 2 ? 'selected' : '' }}>Non-Coffee</option>
-                                <option value="3" {{ $product->category_id == 3 ? 'selected' : '' }}>Pastry</option>
+                                <option value="" disabled>Pilih Kategori</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->category_id }}" {{ $product->category_id == $category->category_id ? 'selected' : '' }}>
+                                        {{ $category->category_name }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -94,7 +97,7 @@
                             <label class="text-[10px] font-black text-coffee uppercase tracking-[0.2em] ml-1">Stok Tersedia</label>
                             <div class="flex items-center bg-cream/30 border border-sand rounded-2xl px-4">
                                 <button type="button" onclick="this.parentNode.querySelector('input').stepDown()" class="p-4 text-coffee hover:scale-125 transition-transform font-black">-</button>
-                                <input type="number" name="stock_quantity" value="{{ $product->stock_quantity }}" min="0" 
+                                <input type="number" name="stock_quantity" value="{{ $product->stock_quantity }}" min="0"
                                        class="w-full bg-transparent border-none text-center font-black text-dark focus:ring-0 text-lg">
                                 <button type="button" onclick="this.parentNode.querySelector('input').stepUp()" class="p-4 text-coffee hover:scale-125 transition-transform font-black">+</button>
                             </div>
@@ -125,7 +128,7 @@
     function previewImage(event) {
         const reader = new FileReader();
         const preview = document.getElementById('imagePreview');
-        
+
         reader.onload = function() {
             if(preview) {
                 preview.src = reader.result;

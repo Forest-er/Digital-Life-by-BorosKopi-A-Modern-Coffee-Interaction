@@ -77,8 +77,9 @@ class productController extends Controller
      */
     public function edit(string $id)
     {
+        $categories = categories::all();
         $product = product::where('product_id', $id)->firstOrFail();
-        return view('product.updateMenu', compact('product'));
+        return view('product.updateMenu', compact('product', 'categories'));
     }
 
     /**
@@ -134,7 +135,7 @@ class productController extends Controller
         $category = new categories();
         $category->category_name = $request->input('name');
         $category->save();
-        return view('product.addCategories');
+        return redirect()->back()->with('success', 'Category added successfully.');
     }
     public function kategoriDelete(string $id){
         $category = categories::where('category_id', $id)->firstOrFail();

@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/categories/destroy/{id}', [productController::class, 'kategoriDelete'])->name('categories.delete');
     Route::get('/admin/register', function(){return view('auth.register');})->name('admin.register');
     Route::get('/export-pdf', [orderController::class, 'exportPdf'])->name('export.pdf');
+    Route::get('/order/report/{id}', [orderController::class, 'report'])->name('order.report');
 });
 Route::get('/order/add', [customerController::class, 'index'])->name('order.add');
 Route::post('/customer/store', [customerController::class, 'store'])->name('customer.store');
